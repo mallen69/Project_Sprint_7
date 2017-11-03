@@ -34,3 +34,8 @@
 
 1. Go back to your forked BigDataAnalystTrack Github website.
 2. Click "new pull request"
+3. Make sure that the page says "able to merge"
+4. Click "create pull request"
+5. Add comments
+6. CLick "create pull request"
+7. __Great job!__ You have completed the forking process! At this step you wait for the Repository administrator to merge your forked repository into the master repository!
