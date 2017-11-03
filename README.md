@@ -25,4 +25,17 @@
 5. A web browser with your editable jupyter notebook will pop up.
   - The default cell you will be editing in is a code cell. We want it to be a markdown cell.
 6. In the task bar click "cell > cell type > markdown.
-7. NO 
+7. This is where you will add in anything and everything about your projects. Likes, dislikes, what you learned, what you want to learn more of.
+8. save your work!
+9. When you are finished documenting your work Go to your hithub desktop app.
+10. Commit your changes.
+11. Push your work to your personal github site.
+### Completing your pull request
+
+1. Go back to your forked BigDataAnalystTrack Github website.
+2. Click "new pull request"
+3. Make sure that the page says "able to merge"
+4. Click "create pull request"
+5. Add comments
+6. CLick "create pull request"
+7. __Great job!__ You have completed the forking process! At this step you wait for the Repository administrator to merge your forked repository into the master repository!
