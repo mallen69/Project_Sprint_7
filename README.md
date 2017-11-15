@@ -1,4 +1,4 @@
-# Guide to Project Documentation
+MEOW # Guide to Project Documentation
 
 Each sprint in the course will involve documenting your project development and learning processes. This documentation will be published in a central repository on the Devleague github account. This repository is visible only to the coaching team and students in the cohort.
 
