@@ -1,4 +1,7 @@
-CREATE TABLE Users(Id INT, Name TEXT);
+DROP TABLE Users;
+CREATE TABLE Users(
+	Id INT, Name TEXT
+);
 INSERT INTO Users VALUES(1,'Michelle');
-INSERT INTO Users VALUES(2,'Howard');
+INSERT INTO Users VALUES(2,'Howard');	
 INSERT INTO Users VALUES(3,'Greg');
