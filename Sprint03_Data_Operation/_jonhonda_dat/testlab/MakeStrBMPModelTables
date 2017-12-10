@@ -5,7 +5,7 @@
 
 
 
-CREATE TABLE base_bmps(
+CREATE TABLE base_bmps( --table defining bmp technologies
   base_bmp_id INTEGER PRIMARY KEY,
   bmp_name TEXT,
   bmp_removal_rates_id INTEGER,
@@ -15,16 +15,17 @@ CREATE TABLE base_bmps(
   FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
 );
 
-CREATE TABLE bmp_facility_test_definitions(
+CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibility test definitions
   bmp_facility_test_definition_id INTEGER PRIMARY KEY,
-  base_bmp_id INTEGER,
-  facility_available_value_variable TEXT,
-  test_less_eq_gtr TEXT,
-  bmp_required_Value_expression_id INTEGER,
+  base_bmp_id INTEGER, --FK reference to the base bmp primary key
+  facility_available_value_variable TEXT, --quantity available at facility we will test
+  test_less_eq_gtr TEXT, -- CAN BE <, =, or >  compares quantity available at facility versus quantity BMP requires
+  bmp_required_Value_expression_id INTEGER, --FK reference to the expressions. table.  The expression defining how much quantity BMP needs
   description TEXT
 );
 
-CREATE TABLE facilities (
+
+CREATE TABLE facilities ( --table holding facility definitions
   facility_id INTEGER PRIMARY KEY,
   facility_name TEXT,
   wrs_pollutant_risks_id INTEGER
