@@ -1,0 +1,31 @@
+--SQLite script file to create the Str BMP Options Model
+--version: v0.01
+--by: Jon Honda
+--date: 12/8/17
+
+
+
+CREATE TABLE base_bmps(
+  base_bmp_id INTEGER PRIMARY KEY,
+  bmp_name TEXT,
+  bmp_removal_rates_id INTEGER,
+  cip_expression_id INTEGER,
+  om_expression_id INTEGER,
+  facility_id INTEGER,
+  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
+);
+
+CREATE TABLE bmp_facility_test_definitions(
+  bmp_facility_test_definition_id INTEGER PRIMARY KEY,
+  base_bmp_id INTEGER,
+  facility_available_value_variable TEXT,
+  test_less_eq_gtr TEXT,
+  bmp_required_Value_expression_id INTEGER,
+  description TEXT
+);
+
+CREATE TABLE facilities (
+  facility_id INTEGER PRIMARY KEY,
+  facility_name TEXT,
+  wrs_pollutant_risks_id INTEGER
+);

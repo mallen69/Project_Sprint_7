@@ -1,0 +1,2 @@
+DROP TABLE facilities;
+CREATE TABLE facilities (facility_id INTEGER PRIMARY KEY, facility_name TEXT, wrs_pollutant_risks_id INTEGER);
