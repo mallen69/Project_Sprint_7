@@ -8,11 +8,14 @@
 CREATE TABLE base_bmps( --table defining bmp technologies
   base_bmp_id INTEGER PRIMARY KEY,
   bmp_name TEXT,
-  bmp_removal_rates_id INTEGER,
+  bmp_removal_rates_id INTEGER, --FK reference to bmp removal rates table
   cip_expression_id INTEGER,
   om_expression_id INTEGER,
   facility_id INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
+  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  FOREIGN KEY (bmp_removal_rates_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id),
+  FOREIGN KEY (cip_expression_id) REFERENCES expressions(expression_id),
+  FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id)
 );
 
 CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibility test definitions
@@ -21,9 +24,123 @@ CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibi
   facility_available_value_variable TEXT, --quantity available at facility we will test
   test_less_eq_gtr TEXT, -- CAN BE <, =, or >  compares quantity available at facility versus quantity BMP requires
   bmp_required_Value_expression_id INTEGER, --FK reference to the expressions. table.  The expression defining how much quantity BMP needs
+  description TEXT,
+  FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
+);
+
+CREATE TABLE bmp_feasibility_test_results(
+  bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
+  facility_id INTEGER,
+  bmp_facility_test_definition_id INTEGER,
+  is_feasible INTEGER,
+  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  FOREIGN KEY (bmp_facility_test_definition_id) REFERENCES bmp_facility_test_definitions(bmp_facility_test_definition_id)
+);
+
+CREATE TABLE bmp_options(
+  bmp_option_id INTEGER PRIMARY KEY,
+  bmp_option_cip_expression_id INTEGER,
+  bmp_option_om_expression_id INTEGER,
+  bmp_option_removal_rate_id INTEGER,
+  FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
+  FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
+  FOREIGN KEY (bmp_option_removal_rate_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id)
+);
+
+CREATE TABLE bmp_option_base_combos(
+  bmp_option_base_combo_id INTEGER PRIMARY KEY,
+  bmp_option_id INTEGER,
+  base_bmp_id INTEGER,
+  FOREIGN KEY (bmp_option_id) REFERENCES bmp_options(bmp_option_id),
+  FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
+);
+
+CREATE TABLE facility_bmp_options(
+  facility_bmp_option_id INTEGER PRIMARY KEY,
+  facility_id INTEGER,
+  bmp_option_id INTEGER,
+  is_feasible INTEGER,
+  calcd_cip_cost FLOAT,
+  calc_om_cost FLOAT,
+  reduced_wrs_pollutant_risks_id INTEGER,
+  sum_reduced_wrs_pollutant_risk FLOAT,
+  sum_reduced_wrs FLOAT,
+  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  FOREIGN KEY (bmp_option_id) REFERENCES bmp_options(bmp_option_id),
+  FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
+);
+
+CREATE TABLE expressions(
+  expression_id INTEGER PRIMARY KEY,
+  expression TEXT
+);
+
+CREATE TABLE scenarios(
+  scenario_id INTEGER PRIMARY KEY,
+  start_datetime TEXT,
+  end_datetime TEXT,
+  tgt_xfield TEXT,
+  tgt_yfield TEXT,
   description TEXT
 );
 
+CREATE TABLE scenario_iterations(
+  scenario_iteration_id INTEGER PRIMARY KEY,
+  scenario_id INTEGER,
+  iteration_no INTEGER,
+  reduced_wrs_pollutant_risks_id INTEGER,
+  sum_reduced_wrs_pollutant_risk FLOAT,
+  sum_reduced_wrs FLOAT,
+  sum_cip_cost FLOAT,
+  sum_om_cost FLOAT,
+  tgt_xvalue FLOAT,
+  tgt_yvalue FLOAT,
+  achvd_xvalue FLOAT,
+  achvd_yvalue FLOAT,
+  rsqr_distance FLOAT,
+  FOREIGN KEY (scenario_id) REFERENCES scenarios(scenario_id),
+  FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(reduced_wrs_pollutant_risks_id)
+);
+
+CREATE TABLE scenario_iteration_bmp_options(
+  scenario_iteration_bmp_option_id INTEGER PRIMARY KEY,
+  scenario_iteration_id INTEGER,
+  facility_bmp_option_id INTEGER,
+  FOREIGN KEY (scenario_iteration_id) REFERENCES scenario_iterations(scenario_iteration_id),
+  FOREIGN KEY (facility_bmp_option_id) REFERENCES facility_bmp_options(facility_bmp_option_id)
+);
+
+CREATE TABLE pollutant_removal_rates(
+  pollutant_removal_rates_id INTEGER PRIMARY KEY,
+  r_tss FLOAT,
+  r_turbidity FLOAT,
+  r_p FLOAT,
+  r_tn FLOAT,
+  r_nn FLOAT,
+  r_an FLOAT,
+  r_og FLOAT,
+  r_cu FLOAT,
+  r_ze FLOAT,
+  r_fe FLOAT,
+  r_phmin FLOAT,
+  r_phmax FLOAT
+);
+
+CREATE TABLE wrs_pollutant_risks(
+  wrs_pollutant_risks_id INTEGER PRIMARY KEY,
+  wrs_tss FLOAT,
+  wrs_turbidity FLOAT,
+  wrs_p FLOAT,
+  wrs_tn FLOAT,
+  wrs_nn FLOAT,
+  wrs_an FLOAT,
+  wrs_og FLOAT,
+  wrs_cu FLOAT,
+  wrs_ze FLOAT,
+  wrs_fe FLOAT,
+  wrs_phmin FLOAT,
+  wrs_phmax FLOAT
+);
 
 CREATE TABLE facilities ( --table holding facility definitions
   facility_id INTEGER PRIMARY KEY,
