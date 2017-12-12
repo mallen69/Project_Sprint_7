@@ -75,14 +75,6 @@ CREATE TABLE expressions(
   expression TEXT
 );
 
-CREATE table expression_variables(
-  expression_variable_id INTEGER PRIMARY KEY,
-  variable_name TEXT,
-  variable_referene_table TEXT,
-  variable_reference_field TEXT,
-  expression_id INTEGER
-);
-
 CREATE TABLE scenarios(
   scenario_id INTEGER PRIMARY KEY,
   start_datetime TEXT,
