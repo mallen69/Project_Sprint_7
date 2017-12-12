@@ -80,7 +80,8 @@ CREATE table expression_variables(
   variable_name TEXT,
   variable_referene_table TEXT,
   variable_reference_field TEXT,
-  expression_id INTEGER
+  expression_id INTEGER,
+  FOREIGN KEY (expression_id) REFERENCES expressions(expression_id)
 );
 
 CREATE TABLE scenarios(
