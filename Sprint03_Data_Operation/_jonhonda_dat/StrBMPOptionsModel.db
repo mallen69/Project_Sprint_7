@@ -1,0 +1,11 @@
+/Structural BMP Options Model Database v0.01/
+//
+/made by: Jon Honda; 12/9/17/
+//
+/this is a SQLite script to build the Structural BMP Options Model Database/
+/this database holds data required to run the structural bmp options scenario model./
+/the database also holds results of scenario runs/
+//
+CREATE TABLE facilities (
+
+
