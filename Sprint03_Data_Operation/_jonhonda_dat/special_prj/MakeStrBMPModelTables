@@ -1,7 +1,7 @@
 --SQLite script file to create the Str BMP Options Model
---version: v0.01
+--version: v0.02
 --by: Jon Honda
---date: 12/8/17
+--date: 12/17/17
 
 
 
@@ -18,13 +18,21 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id)
 );
 
+CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
+  feasibility_test_question_id INTEGER PRIMARY KEY,
+  feas_id TEXT, -- id used in input sheets to identify the feasibility question
+  question_english TEXT -- question in plain english_question,
+  question_expression_id INTEGER -- question as an expression (held in expressions table),
+  FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
+);
+
+CREATE UNIQUE INDEX idx_ftq_feas_id ON feasibility_test_questions(feas_id);
+
 CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibility test definitions
   bmp_facility_test_definition_id INTEGER PRIMARY KEY,
+  feasibility_test_question_id INTEGER,
   base_bmp_id INTEGER, --FK reference to the base bmp primary key
-  facility_available_value_variable TEXT, --quantity available at facility we will test
-  test_less_eq_gtr TEXT, -- CAN BE <, =, or >  compares quantity available at facility versus quantity BMP requires
-  bmp_required_Value_expression_id INTEGER, --FK reference to the expressions. table.  The expression defining how much quantity BMP needs
-  description TEXT,
+  FOREIGN KEY (feasibility_test_question_id) REFERENCES feasibility_test_questions(feasibility_test_question_id),
   FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
 );
 
