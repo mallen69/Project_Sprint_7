@@ -80,7 +80,10 @@ CREATE TABLE facility_bmp_options(
 
 CREATE TABLE expressions(
   expression_id INTEGER PRIMARY KEY,
-  expression TEXT
+  expression_name TEXT,
+  expression_str TEXT,
+  expression_data_type TEXT,
+  vars BLOB)''')
 );
 
 CREATE TABLE scenarios(
