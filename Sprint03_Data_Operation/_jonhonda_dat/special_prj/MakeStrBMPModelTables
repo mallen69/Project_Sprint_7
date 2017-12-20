@@ -21,8 +21,8 @@ CREATE TABLE base_bmps( --table defining bmp technologies
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
   feasibility_test_question_id INTEGER PRIMARY KEY,
   feas_id TEXT, -- id used in input sheets to identify the feasibility question
-  question_english TEXT -- question in plain english_question,
-  question_expression_id INTEGER -- question as an expression (held in expressions table),
+  question_english TEXT, -- question in plain english_question,
+  question_expression_id INTEGER, -- question as an expression (held in expressions table),
   FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
 );
 
@@ -80,7 +80,10 @@ CREATE TABLE facility_bmp_options(
 
 CREATE TABLE expressions(
   expression_id INTEGER PRIMARY KEY,
-  expression TEXT
+  expression_name TEXT,
+  expression_str TEXT,
+  expression_data_type TEXT,
+  vars BLOB
 );
 
 CREATE TABLE scenarios(
@@ -154,4 +157,48 @@ CREATE TABLE facilities ( --table holding facility definitions
   facility_id INTEGER PRIMARY KEY,
   facility_name TEXT,
   wrs_pollutant_risks_id INTEGER
+);
+
+CREATE TABLE facility_chars ( --table holding facility characteristics
+  facility_char_id INTEGER PRIMARY KEY,
+  facility_id INTEGER,
+  Fac_Name TEXT,
+  Fac_Type TEXT,
+  Fac_Add TEXT,
+  Fac_TMK TEXT,
+  GW_Risk TEXT,
+  Fac_Area FLOAT,
+  Bldg_Area FLOAT,
+  Pave_Area FLOAT,
+  Imperv FLOAT,
+  Tm FLOAT,
+  Runoff_Coeff FLOAT,
+  Length FLOAT,
+  Char_Ground TEXT,
+  Fac_Slope FLOAT,
+  TC FLOAT,
+  CF FLOAT,
+  Q_Peak FLOAT,
+  WQV FLOAT,
+  Des_Storm_Depth FLOAT,
+  Runoff_Coeff2 FLOAT,
+  Imperv2 FLOAT,
+  Fac_Area2 FLOAT,
+  WQFR FLOAT,
+  Runoff_Coeff3 FLOAT,
+  WQ_Intensity FLOAT,
+  Fac_Area3 FLOAT,
+  OP_Shutdown TEXT,
+  Soil_Type TEXT,
+  FP_100_Year TEXT,
+  Num_Ind_DP INTEGER,
+  Runoff_Type TEXT,
+  Ex_Struct_BMP TEXT,
+  Count_Pipe INTEGER,
+  Count_Sheet INTEGER,
+  Count_CB INTEGER,
+  Count_Chan INTEGER,
+  Count_DS INTEGER,
+  Count_TD INTEGER,
+  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
 );
