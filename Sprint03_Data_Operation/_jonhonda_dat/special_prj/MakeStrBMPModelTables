@@ -21,8 +21,8 @@ CREATE TABLE base_bmps( --table defining bmp technologies
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
   feasibility_test_question_id INTEGER PRIMARY KEY,
   feas_id TEXT, -- id used in input sheets to identify the feasibility question
-  question_english TEXT -- question in plain english_question,
-  question_expression_id INTEGER -- question as an expression (held in expressions table),
+  question_english TEXT, -- question in plain english_question,
+  question_expression_id INTEGER, -- question as an expression (held in expressions table),
   FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE expressions(
   expression_name TEXT,
   expression_str TEXT,
   expression_data_type TEXT,
-  vars BLOB)''')
+  vars BLOB
 );
 
 CREATE TABLE scenarios(
@@ -160,7 +160,7 @@ CREATE TABLE facilities ( --table holding facility definitions
 );
 
 CREATE TABLE facility_chars ( --table holding facility characteristics
-  facility_char_id INTEGER PRIMARY,
+  facility_char_id INTEGER PRIMARY KEY,
   facility_id INTEGER,
   Fac_Name TEXT,
   Fac_Type TEXT,
@@ -170,7 +170,7 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Fac_Area FLOAT,
   Bldg_Area FLOAT,
   Pave_Area FLOAT,
-  %_Imperv FLOAT,
+  Imperv FLOAT,
   Tm FLOAT,
   Runoff_Coeff FLOAT,
   Length FLOAT,
@@ -182,7 +182,7 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   WQV FLOAT,
   Des_Storm_Depth FLOAT,
   Runoff_Coeff2 FLOAT,
-  %_Imperv2 FLOAT,
+  Imperv2 FLOAT,
   Fac_Area2 FLOAT,
   WQFR FLOAT,
   Runoff_Coeff3 FLOAT,
@@ -190,7 +190,7 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Fac_Area3 FLOAT,
   OP_Shutdown TEXT,
   Soil_Type TEXT,
-  100_Year_FP TEXT,
+  FP_100_Year TEXT,
   Num_Ind_DP INTEGER,
   Runoff_Type TEXT,
   Ex_Struct_BMP TEXT,
@@ -199,6 +199,6 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Count_CB INTEGER,
   Count_Chan INTEGER,
   Count_DS INTEGER,
-  Count_TD INTEGER
+  Count_TD INTEGER,
   FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
 );

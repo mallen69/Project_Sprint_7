@@ -1,7 +1,7 @@
 --SQLite script file to create the Str BMP Options Model
---version: v0.01
+--version: v0.02
 --by: Jon Honda
---date: 12/8/17
+--date: 12/17/17
 
 
 
@@ -18,13 +18,21 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id)
 );
 
+CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
+  feasibility_test_question_id INTEGER PRIMARY KEY,
+  feas_id TEXT, -- id used in input sheets to identify the feasibility question
+  question_english TEXT, -- question in plain english_question,
+  question_expression_id INTEGER, -- question as an expression (held in expressions table),
+  FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
+);
+
+CREATE UNIQUE INDEX idx_ftq_feas_id ON feasibility_test_questions(feas_id);
+
 CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibility test definitions
   bmp_facility_test_definition_id INTEGER PRIMARY KEY,
+  feasibility_test_question_id INTEGER,
   base_bmp_id INTEGER, --FK reference to the base bmp primary key
-  facility_available_value_variable TEXT, --quantity available at facility we will test
-  test_less_eq_gtr TEXT, -- CAN BE <, =, or >  compares quantity available at facility versus quantity BMP requires
-  bmp_required_Value_expression_id INTEGER, --FK reference to the expressions. table.  The expression defining how much quantity BMP needs
-  description TEXT,
+  FOREIGN KEY (feasibility_test_question_id) REFERENCES feasibility_test_questions(feasibility_test_question_id),
   FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
 );
 
@@ -72,16 +80,10 @@ CREATE TABLE facility_bmp_options(
 
 CREATE TABLE expressions(
   expression_id INTEGER PRIMARY KEY,
-  expression TEXT
-);
-
-CREATE table expression_variables(
-  expression_variable_id INTEGER PRIMARY KEY,
-  variable_name TEXT,
-  variable_referene_table TEXT,
-  variable_reference_field TEXT,
-  expression_id INTEGER,
-  FOREIGN KEY (expression_id) REFERENCES expressions(expression_id)
+  expression_name TEXT,
+  expression_str TEXT,
+  expression_data_type TEXT,
+  vars BLOB
 );
 
 CREATE TABLE scenarios(
@@ -155,4 +157,48 @@ CREATE TABLE facilities ( --table holding facility definitions
   facility_id INTEGER PRIMARY KEY,
   facility_name TEXT,
   wrs_pollutant_risks_id INTEGER
+);
+
+CREATE TABLE facility_chars ( --table holding facility characteristics
+  facility_char_id INTEGER PRIMARY,
+  facility_id INTEGER,
+  Fac_Name TEXT,
+  Fac_Type TEXT,
+  Fac_Add TEXT,
+  Fac_TMK TEXT,
+  GW_Risk TEXT,
+  Fac_Area FLOAT,
+  Bldg_Area FLOAT,
+  Pave_Area FLOAT,
+  %_Imperv FLOAT,
+  Tm FLOAT,
+  Runoff_Coeff FLOAT,
+  Length FLOAT,
+  Char_Ground TEXT,
+  Fac_Slope FLOAT,
+  TC FLOAT,
+  CF FLOAT,
+  Q_Peak FLOAT,
+  WQV FLOAT,
+  Des_Storm_Depth FLOAT,
+  Runoff_Coeff2 FLOAT,
+  %_Imperv2 FLOAT,
+  Fac_Area2 FLOAT,
+  WQFR FLOAT,
+  Runoff_Coeff3 FLOAT,
+  WQ_Intensity FLOAT,
+  Fac_Area3 FLOAT,
+  OP_Shutdown TEXT,
+  Soil_Type TEXT,
+  100_Year_FP TEXT,
+  Num_Ind_DP INTEGER,
+  Runoff_Type TEXT,
+  Ex_Struct_BMP TEXT,
+  Count_Pipe INTEGER,
+  Count_Sheet INTEGER,
+  Count_CB INTEGER,
+  Count_Chan INTEGER,
+  Count_DS INTEGER,
+  Count_TD INTEGER,
+  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
 );
