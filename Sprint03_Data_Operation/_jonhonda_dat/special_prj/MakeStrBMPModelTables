@@ -161,7 +161,6 @@ CREATE TABLE facilities ( --table holding facility definitions
 
 CREATE TABLE facility_chars ( --table holding facility characteristics
   facility_char_id INTEGER PRIMARY KEY,
-  facility_id INTEGER,
   Fac_Name TEXT,
   Fac_Type TEXT,
   Fac_Add TEXT,
@@ -199,6 +198,5 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Count_CB INTEGER,
   Count_Chan INTEGER,
   Count_DS INTEGER,
-  Count_TD INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id)
+  Count_TD INTEGER
 );
