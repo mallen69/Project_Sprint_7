@@ -1,6 +1,4 @@
-﻿,,,,Facility Characterisitics,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,1,2,3,4,5,6,7,7a,7b,7c,8,8a,9,10,10a,10b,10c,10d,11,11a,11b,11c,12,13,14,15,15a,15b,15c,15d,15e,15f,15g,15h
-Fac_Name,Fac_Type,Fac_Add,Fac_TMK,GW_Risk,Fac_Area,Bldg_Area,Pave_Area,Imperv,Tm,Runoff_Coeff,Length,Char_Ground,Fac_Slope,TC,CF,Q_Peak,WQV,Des_Storm_Depth,Runoff_Coeff2,Imperv2,Fac_Area2,WQFR,Runoff_Coeff3,WQ_Intensity,Fac_Area3,OP_Shutdown,Soil_Type,FP_100_Year,Num_Ind_DP,Runoff_Type,Ex_Struct_BMP,Count_Pipe,Count_Sheet,Count_CB,Count_Chan,Count_DS,Count_TD
+﻿Fac_Name,Fac_Type,Fac_Add,Fac_TMK,GW_Risk,Fac_Area,Bldg_Area,Pave_Area,Imperv,Tm,Runoff_Coeff,Length,Char_Ground,Fac_Slope,TC,CF,Q_Peak,WQV,Des_Storm_Depth,Runoff_Coeff2,Imperv2,Fac_Area2,WQFR,Runoff_Coeff3,WQ_Intensity,Fac_Area3,OP_Shutdown,Soil_Type,FP_100_Year,Num_Ind_DP,Runoff_Type,Ex_Struct_BMP,Count_Pipe,Count_Sheet,Count_CB,Count_Chan,Count_DS,Count_TD
 Kalihi Palama Bus Facility,Bus Maintenance Facility,"611 and 811 Middle Street 
 Honolulu, Hawaii 96819","(1) 1-2-015:006, (1) 1-2-016-006:007, (1) 1-2-018-003, 009, 011",High,24.6671258,206538,867962,1,2.4,0.9,403,Paved,0.014888337,7.5,2.5,133.2024793,85064.58333,1,0.95,1,24.6671258,13.32024793,0.9,0.4,24.6671258,0,Quarry,Partial,3,Catch Basin to Piped Outlet,OWS,0,0,3,0,0,0
 Pearl City Bus Facility,Bus Maintenance Facility,"1200 Waimano Home Road 
