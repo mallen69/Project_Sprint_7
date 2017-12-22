@@ -11,8 +11,6 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   bmp_removal_rates_id INTEGER, --FK reference to bmp removal rates table
   cip_expression_id INTEGER,
   om_expression_id INTEGER,
-  facility_id INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
   FOREIGN KEY (bmp_removal_rates_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id),
   FOREIGN KEY (cip_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id)
@@ -198,5 +196,6 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Count_CB INTEGER,
   Count_Chan INTEGER,
   Count_DS INTEGER,
-  Count_TD INTEGER
+  Count_TD INTEGER,
+  CONSTRAINT unq_fac_name UNIQUE(fac_name)
 );
