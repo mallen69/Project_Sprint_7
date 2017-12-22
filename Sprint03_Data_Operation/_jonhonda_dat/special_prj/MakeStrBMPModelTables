@@ -11,9 +11,11 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   bmp_removal_rates_id INTEGER, --FK reference to bmp removal rates table
   cip_expression_id INTEGER,
   om_expression_id INTEGER,
+  bmp_size_expression_id INTEGER,
   FOREIGN KEY (bmp_removal_rates_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id),
   FOREIGN KEY (cip_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id)
+  FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id),
+  FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)  
 );
 
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
