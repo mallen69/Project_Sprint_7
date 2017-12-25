@@ -15,7 +15,7 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   FOREIGN KEY (bmp_removal_rates_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id),
   FOREIGN KEY (cip_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)  
+  FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)
 );
 
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
@@ -131,7 +131,7 @@ CREATE TABLE pollutant_removal_rates(
   r_an FLOAT,
   r_og FLOAT,
   r_cu FLOAT,
-  r_ze FLOAT,
+  r_zn FLOAT,
   r_fe FLOAT,
   r_phmin FLOAT,
   r_phmax FLOAT
@@ -147,7 +147,7 @@ CREATE TABLE wrs_pollutant_risks(
   wrs_an FLOAT,
   wrs_og FLOAT,
   wrs_cu FLOAT,
-  wrs_ze FLOAT,
+  wrs_zn FLOAT,
   wrs_fe FLOAT,
   wrs_phmin FLOAT,
   wrs_phmax FLOAT
