@@ -30,21 +30,21 @@ CREATE TABLE feasibility_test_questions( -- table holding feasibility questions 
 
 CREATE UNIQUE INDEX idx_ftq_feas_id ON feasibility_test_questions(feas_id);
 
-CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibility test definitions
-  bmp_facility_test_definition_id INTEGER PRIMARY KEY,
+CREATE TABLE base_bmp_feasibility_test_definitions( --table holding feasibility test definitions for each base bmp
+  base_bmp_feasibility_test_definition_id INTEGER PRIMARY KEY,
   feasibility_test_question_id INTEGER,
   base_bmp_id INTEGER, --FK reference to the base bmp primary key
   FOREIGN KEY (feasibility_test_question_id) REFERENCES feasibility_test_questions(feasibility_test_question_id),
   FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
 );
 
-CREATE TABLE bmp_feasibility_test_results(
-  bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
+CREATE TABLE base_bmp_feasibility_test_results(
+  base_bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
   facility_id INTEGER,
-  bmp_facility_test_definition_id INTEGER,
+  base_bmp_feasibility_test_definition_id INTEGER,
   is_feasible INTEGER,
   FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
-  FOREIGN KEY (bmp_facility_test_definition_id) REFERENCES bmp_facility_test_definitions(bmp_facility_test_definition_id)
+  FOREIGN KEY (base_bmp_feasibility_test_definition_id) REFERENCES base_bmp_feasibility_test_definitions(base_bmp_feasibility_test_definition_id)
 );
 
 CREATE TABLE bmp_options(
