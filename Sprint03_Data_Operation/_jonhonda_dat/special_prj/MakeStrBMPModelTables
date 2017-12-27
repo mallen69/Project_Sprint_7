@@ -18,6 +18,8 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)
 );
 
+CREATE UNIQUE INDEX idx_base_bmp ON base_bmps(bmp_name);
+
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
   feasibility_test_question_id INTEGER PRIMARY KEY,
   feas_id TEXT, -- id used in input sheets to identify the feasibility question
