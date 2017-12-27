@@ -196,6 +196,13 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Count_Chan INTEGER,
   Count_DS INTEGER,
   Count_TD INTEGER,
+  OFFSITE_SD_Exist TEXT,
+  Dmg_Pave INTEGER,
+  TFMR_Exist TEXT,
+  DS_SS_Exist TEXT,
+  Can_Add_SD TEXT,
+  Unpave_Area FLOAT,
+  EM_Area FLOAT,
   FOREIGN KEY (wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
   CONSTRAINT unq_fac_name UNIQUE(fac_name)
 );
