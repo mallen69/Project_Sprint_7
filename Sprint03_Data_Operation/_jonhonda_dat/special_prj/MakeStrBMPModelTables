@@ -43,7 +43,7 @@ CREATE TABLE bmp_feasibility_test_results(
   facility_id INTEGER,
   bmp_facility_test_definition_id INTEGER,
   is_feasible INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
   FOREIGN KEY (bmp_facility_test_definition_id) REFERENCES bmp_facility_test_definitions(bmp_facility_test_definition_id)
 );
 
@@ -75,7 +75,7 @@ CREATE TABLE facility_bmp_options(
   reduced_wrs_pollutant_risks_id INTEGER,
   sum_reduced_wrs_pollutant_risk FLOAT,
   sum_reduced_wrs FLOAT,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
   FOREIGN KEY (bmp_option_id) REFERENCES bmp_options(bmp_option_id),
   FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
 );
@@ -155,15 +155,10 @@ CREATE TABLE wrs_pollutant_risks(
   wrs_phmax FLOAT
 );
 
-CREATE TABLE facilities ( --table holding facility definitions
-  facility_id INTEGER PRIMARY KEY,
-  facility_name TEXT,
-  wrs_pollutant_risks_id INTEGER
-);
-
 CREATE TABLE facility_chars ( --table holding facility characteristics
-  facility_char_id INTEGER PRIMARY KEY,
+  facility_id INTEGER PRIMARY KEY,
   Fac_Name TEXT,
+  wrs_pollutant_risks_id INTEGER,
   Fac_Type TEXT,
   Fac_Add TEXT,
   Fac_TMK TEXT,
@@ -201,5 +196,6 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Count_Chan INTEGER,
   Count_DS INTEGER,
   Count_TD INTEGER,
+  FOREIGN KEY (wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
   CONSTRAINT unq_fac_name UNIQUE(fac_name)
 );
