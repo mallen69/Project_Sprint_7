@@ -49,11 +49,11 @@ CREATE TABLE base_bmp_feasibility_test_results(
 
 CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
   bmp_option_id INTEGER PRIMARY KEY,
-  bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
-  bmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
+  -- DEPRECATED. CALC AT RUNTIME bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
+  -- DEPRECATED. CALC AT RUNTIMEbmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
   bmp_option_removal_rate_id INTEGER, --max of base_bmp removal rates
-  FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
+  --FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
+  --FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (bmp_option_removal_rate_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id)
 );
 
