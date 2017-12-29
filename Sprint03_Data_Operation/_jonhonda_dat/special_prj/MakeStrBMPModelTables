@@ -47,17 +47,17 @@ CREATE TABLE base_bmp_feasibility_test_results(
   FOREIGN KEY (base_bmp_feasibility_test_definition_id) REFERENCES base_bmp_feasibility_test_definitions(base_bmp_feasibility_test_definition_id)
 );
 
-CREATE TABLE bmp_options(
+CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
   bmp_option_id INTEGER PRIMARY KEY,
-  bmp_option_cip_expression_id INTEGER,
-  bmp_option_om_expression_id INTEGER,
-  bmp_option_removal_rate_id INTEGER,
+  bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
+  bmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
+  bmp_option_removal_rate_id INTEGER, --max of base_bmp removal rates
   FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (bmp_option_removal_rate_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id)
 );
 
-CREATE TABLE bmp_option_base_combos(
+CREATE TABLE bmp_option_base_combos( --identifies the base_bmps that comprise a bmp combo
   bmp_option_base_combo_id INTEGER PRIMARY KEY,
   bmp_option_id INTEGER,
   base_bmp_id INTEGER,
@@ -203,6 +203,7 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Can_Add_SD TEXT,
   Unpave_Area FLOAT,
   EM_Area FLOAT,
+  Drainage_Area_Acres FLOAT,
   FOREIGN KEY (wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
   CONSTRAINT unq_fac_name UNIQUE(fac_name)
 );
