@@ -17,8 +17,18 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)
 );
-
 CREATE UNIQUE INDEX idx_base_bmp ON base_bmps(bmp_name);
+
+CREATE TABLE base_bmp_facility_values( --table holding facility calculated values for base bmps
+  base_bmp_facility_value_id INTEGER PRIMARY KEY,
+  base_bmp_id INTEGER,
+  facility_id INTEGER,
+  cip_expression_value FLOAT,
+  om_expression_value FLOAT,
+
+  FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id),
+  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id)
+);
 
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
   feasibility_test_question_id INTEGER PRIMARY KEY,
@@ -27,7 +37,6 @@ CREATE TABLE feasibility_test_questions( -- table holding feasibility questions 
   question_expression_id INTEGER, -- question as an expression (held in expressions table),
   FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
 );
-
 CREATE UNIQUE INDEX idx_ftq_feas_id ON feasibility_test_questions(feas_id);
 
 CREATE TABLE base_bmp_feasibility_test_definitions( --table holding feasibility test definitions for each base bmp
