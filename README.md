@@ -19,7 +19,7 @@
 
 
 |Author|Skill Story|Project|Highlights|Future Work|
-|---|---|---|---|
+|---|---|---|---|---|
 |Hunter Heavilin|As a researcher, I need to understand basic scraping so that I can  download data from websites. [[Project Journal]](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Hunter_Heaivilin.ipynb)|[**Tables all the way down**](https://github.com/supersistence/Tables-All-The-Way-Down) |[Magrittr, For Loops, Nested If Statements]()|databases, web resources, APIs|
 |Jon Honda|Connecting to Quandl|[slides](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/01_Sprint_Presentations/Sprint_Review_Presentation_honda.pdf)|[docs](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Jon_Honda.ipynb)||
 |Justine Espiritu|Importing Excel Data into SQLite Studio Database/Tables|[slides](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/01_Sprint_Presentations/VL_JE_Sprint_Review2_Presentation.pdf)|[docs](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Justine_Espiritu.ipynb)||
