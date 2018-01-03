@@ -14,6 +14,12 @@
 
 # Sprint 2: Connecting to Data Sources
 
+*"Getting" the data you want to analyze means downloading it from websites, connecting to and querying databases, extracting it from HTML webpages, interfacing with APIs (Application Programmer Interfaces) importing and exporting files, and converting back and forth between data formats. Programming languages, databases, command line-based applications and graphical applications each have something to offer*
+
+|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
+|:----------------|:----|:------------------|:----|
+|I need to construct datasets from web resources, so that I can investigate issues where data are not readily available| I need to understand the full technology operating system stack and ecosystem so that I can interact with tools| I need to understand basic scripting so that I can save repeatable analyses and work| I need to be able to connect to my corporate databases, APIs and data warehouses so that I can make use of available data resources|
+
 |Author|Project Title|overview|repo|docs|
 |---|---|---|---|---|
 |Hunter Heavilin|Tables all the Way Down|[slides](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/01_Sprint_Presentations/Sprint02_Review_Presentation%20HH.pdf)|[repo](https://github.com/supersistence/Tables-All-The-Way-Down)|[docs](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Hunter_Heaivilin.ipynb)|
