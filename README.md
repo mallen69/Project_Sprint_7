@@ -20,7 +20,7 @@
 
 
 
-|Author|Skill Story|Project|Highlights|Future Work|
+|Author|Skill Story|Project Repo|Highlights|Future Work|
 |---|---|---|---|---|
 |[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|As a researcher, I need to understand basic scraping so that I can  download data from websites. [[Project Journal]](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Hunter_Heaivilin.ipynb)|[**Tables all the way down**](https://github.com/supersistence/Tables-All-The-Way-Down) |[Magrittr, For Loops, Nested If Statements]()|databases, web resources, APIs|
 |[Jon Honda](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Jon_Honda_Roadmap.ipynb)|As a financial analyst I need to be able to retrieve and store web based market price data so that I can run analyses on the collected data. [[Project Journal]](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Jon_Honda.ipynb)|[**Connecting to Quandl**](https://github.com/hondajyh/DevLeagueProjects/tree/master/Sprint%202)|[Quandl, SQL, Creating Databases, Pandas](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/01_Sprint_Presentations/Sprint_Review_Presentation_honda.pdf) ||
