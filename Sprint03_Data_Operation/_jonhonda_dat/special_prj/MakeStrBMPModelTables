@@ -165,16 +165,27 @@ CREATE TABLE wrs_pollutant_risks(
   wrs_phmax FLOAT
 );
 
+CREATE TABLE facility_risks ( --table holding risk estimates for facility (either existing risks or simulated risk reductions)
+  facility_risk_id INTEGER PRIMARY KEY,
+  Category_RiskFactor FLOAT, -- factor = 10^riskpower identified in WRS
+  Inherent_BaseRisk FLOAT,
+  HousekeepingBMP_BaseRisk FLOAT,
+  SWPlan_BaseRisk FLOAT, -- stormwater plan risk (effectiveness measure) (training, plan development, inspection deficiencies)
+  BMPInspectionDeficiency_Rate FLOAT, -- deficient portion of PC bmp INSPECTION, OR 1 (modeled as fully defient) IF NO PC BMP IMPLEMENTED
+  wrs_pollutant_limits_id INTEGER, -- pollutant limits (either NEL or other)
+  wrs_pollutant_concentrations_id INTEGER ,-- existing pollutant concentrations from sampling data, or modeled
+  wrs_pollutant_risks_id INTEGER, -- WRS pollutant risks
+  wrs_total_risk FLOAT,
+  FOREIGN KEY (wrs_pollutant_limits_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
+  FOREIGN KEY (wrs_pollutant_concentrations_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
+  FOREIGN KEY (wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
+);
+
 CREATE TABLE facility_chars ( --table holding facility characteristics
   facility_id INTEGER PRIMARY KEY,
   Fac_Name TEXT,
-  Inherent_BaseRisk FLOAT,
-  Category_RiskFactor FLOAT, -- factor = 10^riskpower identified in WRS
-  HousekeepingBMP_BaseRisk FLOAT,
-  SWInspectionDeficiency_Rate FLOAT, -- defiicent portion of swpcp/ssbmp inspection questions
-  BMPInspectionDeficiency_Rate FLOAT, -- deficient portion
-  wrs_pollutant_risks_id INTEGER, --existing WRS pollutant risks
   Permit_Table TEXT, --permit table (1, 1A, 2, or none)
+  existing_facility_risk_id INTEGER, -- existing facility risks (modeled or from existing data sources)
   Fac_Type TEXT,
   Fac_Dept TEXT,
   Fac_Add TEXT,
@@ -221,6 +232,6 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Unpave_Area FLOAT,
   EM_Area FLOAT,
   Drainage_Area_Acres FLOAT,
-  FOREIGN KEY (wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
+  FOREIGN KEY (existing_facility_risk_id) REFERENCES facility_risks(facility_risk_id),
   CONSTRAINT unq_fac_name UNIQUE(fac_name)
 );
