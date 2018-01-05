@@ -1,7 +1,7 @@
-# Sprint 1: Data Formats and Terminology
-
+# Module 1: Acquiring Data and Data Formats
 *"Getting" the data you want to analyze means downloading it from websites, connecting to and querying databases, extracting it from HTML webpages, interfacing with APIs (Application Programmer Interfaces) importing and exporting files, and converting back and forth between data formats. Programming languages, databases, command line-based applications and graphical applications each have something to offer*
 
+## Sprint 1: Data Formats and Terminology
 |Author|Project|Skill Story|Highlights|Future Work|
 |---|---|---|---|---|
 |[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|[**Getting to Know Shapefiles and GeoJSON**](https://github.com/supersistence/Getting-to-Know-Shapefiles-and-GeoJSON) | As a modeler, I need to programmatically read, write, edit, and convert data files so that I can convert back and forth between data formats and make the data interact.[[Project Journal]](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint01_Data_Formats_and_Terminology/Hunter_Heaivilin.ipynb)|[-](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint01_Data_Formats_and_Terminology/01_Sprint_Presentations/Hunter_Heaivilin_Sprint_01_Review.pdf)|-|
@@ -16,11 +16,7 @@
 
 
 
-# Sprint 2: Connecting to Data Sources
-
-*"Getting" the data you want to analyze means downloading it from websites, connecting to and querying databases, extracting it from HTML webpages, interfacing with APIs (Application Programmer Interfaces) importing and exporting files, and converting back and forth between data formats. Programming languages, databases, command line-based applications and graphical applications each have something to offer*
-
-
+## Sprint 2: Connecting to Data Sources
 
 |Author|Project|Skill Story|Highlights|Future Work|
 |---|---|---|---|---|
