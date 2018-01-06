@@ -59,8 +59,8 @@ CREATE TABLE base_bmp_feasibility_test_results(
 CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
   bmp_option_id INTEGER PRIMARY KEY,
   bmp_fingerprint TEXT, -- a hashup of the bmp_option_base_component_ids that comprise this bmp option. FORMAT: |bmp_option_base_component_id||bmp_option_base_component_id| w/ id's given in ascending order
-  -- DEPRECATED. CALC AT RUNTIME bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
-  -- DEPRECATED. CALC AT RUNTIMEbmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
+  -- <DEPRECATED. CALC AT RUNTIME> bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
+  -- <DEPRECATED. CALC AT RUNTIME> bmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
   bmp_option_removal_rate_id INTEGER, --max of base_bmp removal rates
   --FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
   --FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
@@ -164,6 +164,17 @@ CREATE TABLE wrs_pollutant_risks(
   wrs_phmin FLOAT,
   wrs_phmax FLOAT
 );
+
+CREATE TABLE effluent_limits_facility_types(
+  -- table of the pollutants w/ effluent limits for each facility type
+  -- data is held as a wrs_pollutant_risk record
+  nel_facility_type_id PRIMARY KEY,
+  Fac_Type TEXT, -- same facility types as recorded in facility_chars **this may be a weak point. no key between the 2 fields?
+  wrs_pollutant_limits_id INTEGER,
+  FOREIGN KEY (wrs_pollutant_limits_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
+);
+
+
 
 CREATE TABLE facility_risks ( --table holding risk estimates for facility (either existing risks or simulated risk reductions)
   facility_risk_id INTEGER PRIMARY KEY,
