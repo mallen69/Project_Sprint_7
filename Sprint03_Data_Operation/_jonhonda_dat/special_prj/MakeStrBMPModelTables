@@ -11,11 +11,23 @@ CREATE TABLE base_bmps( --table defining bmp technologies
   bmp_removal_rates_id INTEGER, --FK reference to bmp removal rates table
   cip_expression_id INTEGER,
   om_expression_id INTEGER,
-  facility_id INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  bmp_size_expression_id INTEGER,
   FOREIGN KEY (bmp_removal_rates_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id),
   FOREIGN KEY (cip_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id)
+  FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id),
+  FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)
+);
+CREATE UNIQUE INDEX idx_base_bmp ON base_bmps(bmp_name);
+
+CREATE TABLE base_bmp_facility_values( --table holding facility calculated values for base bmps
+  base_bmp_facility_value_id INTEGER PRIMARY KEY,
+  base_bmp_id INTEGER,
+  facility_id INTEGER,
+  cip_expression_value FLOAT,
+  om_expression_value FLOAT,
+
+  FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id),
+  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id)
 );
 
 CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
@@ -25,38 +37,38 @@ CREATE TABLE feasibility_test_questions( -- table holding feasibility questions 
   question_expression_id INTEGER, -- question as an expression (held in expressions table),
   FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
 );
-
 CREATE UNIQUE INDEX idx_ftq_feas_id ON feasibility_test_questions(feas_id);
 
-CREATE TABLE bmp_facility_test_definitions( --table holding facility-bmp feasibility test definitions
-  bmp_facility_test_definition_id INTEGER PRIMARY KEY,
+CREATE TABLE base_bmp_feasibility_test_definitions( --table holding feasibility test definitions for each base bmp
+  base_bmp_feasibility_test_definition_id INTEGER PRIMARY KEY,
   feasibility_test_question_id INTEGER,
   base_bmp_id INTEGER, --FK reference to the base bmp primary key
   FOREIGN KEY (feasibility_test_question_id) REFERENCES feasibility_test_questions(feasibility_test_question_id),
   FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
 );
 
-CREATE TABLE bmp_feasibility_test_results(
-  bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
+CREATE TABLE base_bmp_feasibility_test_results(
+  base_bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
   facility_id INTEGER,
-  bmp_facility_test_definition_id INTEGER,
+  base_bmp_feasibility_test_definition_id INTEGER,
   is_feasible INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
-  FOREIGN KEY (bmp_facility_test_definition_id) REFERENCES bmp_facility_test_definitions(bmp_facility_test_definition_id)
+  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
+  FOREIGN KEY (base_bmp_feasibility_test_definition_id) REFERENCES base_bmp_feasibility_test_definitions(base_bmp_feasibility_test_definition_id)
 );
 
-CREATE TABLE bmp_options(
+CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
   bmp_option_id INTEGER PRIMARY KEY,
-  bmp_option_cip_expression_id INTEGER,
-  bmp_option_om_expression_id INTEGER,
-  bmp_option_removal_rate_id INTEGER,
-  FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
+  bmp_fingerprint TEXT, -- a hashup of the bmp_option_base_component_ids that comprise this bmp option. FORMAT: |bmp_option_base_component_id||bmp_option_base_component_id| w/ id's given in ascending order
+  -- <DEPRECATED. CALC AT RUNTIME> bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
+  -- <DEPRECATED. CALC AT RUNTIME> bmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
+  bmp_option_removal_rate_id INTEGER, --max of base_bmp removal rates
+  --FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
+  --FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (bmp_option_removal_rate_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id)
 );
 
-CREATE TABLE bmp_option_base_combos(
-  bmp_option_base_combo_id INTEGER PRIMARY KEY,
+CREATE TABLE bmp_option_base_components( --identifies the base_bmp components that comprise a bmp combo
+  bmp_option_base_component_id INTEGER PRIMARY KEY,
   bmp_option_id INTEGER,
   base_bmp_id INTEGER,
   FOREIGN KEY (bmp_option_id) REFERENCES bmp_options(bmp_option_id),
@@ -68,12 +80,12 @@ CREATE TABLE facility_bmp_options(
   facility_id INTEGER,
   bmp_option_id INTEGER,
   is_feasible INTEGER,
-  calcd_cip_cost FLOAT,
+  calc_cip_cost FLOAT,
   calc_om_cost FLOAT,
   reduced_wrs_pollutant_risks_id INTEGER,
   sum_reduced_wrs_pollutant_risk FLOAT,
   sum_reduced_wrs FLOAT,
-  FOREIGN KEY (facility_id) REFERENCES facilities(facility_id),
+  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
   FOREIGN KEY (bmp_option_id) REFERENCES bmp_options(bmp_option_id),
   FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
 );
@@ -126,12 +138,12 @@ CREATE TABLE pollutant_removal_rates(
   r_tss FLOAT,
   r_turbidity FLOAT,
   r_p FLOAT,
-  r_tn FLOAT,
+  r_n FLOAT,
   r_nn FLOAT,
   r_an FLOAT,
   r_og FLOAT,
   r_cu FLOAT,
-  r_ze FLOAT,
+  r_zn FLOAT,
   r_fe FLOAT,
   r_phmin FLOAT,
   r_phmax FLOAT
@@ -142,27 +154,68 @@ CREATE TABLE wrs_pollutant_risks(
   wrs_tss FLOAT,
   wrs_turbidity FLOAT,
   wrs_p FLOAT,
-  wrs_tn FLOAT,
+  wrs_n FLOAT,
   wrs_nn FLOAT,
   wrs_an FLOAT,
   wrs_og FLOAT,
   wrs_cu FLOAT,
-  wrs_ze FLOAT,
+  wrs_zn FLOAT,
   wrs_fe FLOAT,
   wrs_phmin FLOAT,
   wrs_phmax FLOAT
 );
 
-CREATE TABLE facilities ( --table holding facility definitions
-  facility_id INTEGER PRIMARY KEY,
-  facility_name TEXT,
-  wrs_pollutant_risks_id INTEGER
+CREATE TABLE effluent_limits_facility_types(
+  -- table of the pollutants w/ effluent limits for each facility type
+  -- data is held as a wrs_pollutant_risk record
+  nel_facility_type_id PRIMARY KEY,
+  Fac_Type TEXT, -- same facility types as recorded in facility_chars **this may be a weak point. no key between the 2 fields?
+  wrs_pollutant_limits_id INTEGER,
+  FOREIGN KEY (wrs_pollutant_limits_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
+);
+
+
+
+CREATE TABLE facility_risks ( --table holding risk estimates for facility (either existing risks or simulated risk reductions)
+  facility_risk_id INTEGER PRIMARY KEY,
+  Category_RiskFactor FLOAT, -- factor = 10^riskpower identified in WRS
+  Inherent_BaseRisk FLOAT,
+  HousekeepingBMP_BaseRisk FLOAT,
+  SWPlan_BaseRisk FLOAT, -- stormwater plan risk (effectiveness measure) (training, plan development, inspection deficiencies)
+  BMPInspectionDeficiency_Rate FLOAT, -- deficient portion of PC bmp INSPECTION, OR 1 (modeled as fully defient) IF NO PC BMP IMPLEMENTED
+  wrs_pollutant_limits_id INTEGER, -- pollutant limits (either NEL or other)
+  wrs_pollutant_concentrations_id INTEGER ,-- existing pollutant concentrations from sampling data, or modeled
+  wrs_pollutant_risks_id INTEGER, -- WRS pollutant risks
+  wrs_total_risk FLOAT,
+  FOREIGN KEY (wrs_pollutant_limits_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
+  FOREIGN KEY (wrs_pollutant_concentrations_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id),
+  FOREIGN KEY (wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
+);
+
+CREATE TABLE facility_monthly_rain ( -- table holding data obtained from the following website: http://rainfall.geography.hawaii.edu/downloads.html
+  facility_monthly_rain_id INTEGER PRIMARY KEY,
+  January FLOAT, -- month's rain depth in inches
+  February FLOAT, -- month's rain depth in inches
+  March FLOAT, -- month's rain depth in inches
+  April FLOAT, -- month's rain depth in inches
+  May FLOAT, -- month's rain depth in inches
+  June FLOAT, -- month's rain depth in inches
+  July FLOAT, -- month's rain depth in inches
+  August FLOAT, -- month's rain depth in inches
+  September FLOAT, -- month's rain depth in inches
+  October FLOAT, -- month's rain depth in inches
+  November FLOAT, -- month's rain depth in inches
+  December FLOAT -- month's rain depth in inches
 );
 
 CREATE TABLE facility_chars ( --table holding facility characteristics
-  facility_char_id INTEGER PRIMARY KEY,
+  facility_id INTEGER PRIMARY KEY,
   Fac_Name TEXT,
+  Permit_Table TEXT, --permit table (1, 1A, 2, or none)
+  existing_facility_risk_id INTEGER, -- existing facility risks (modeled or from existing data sources)
+  facility_monthly_rain_id INTEGER, -- facility monthly rainfall records
   Fac_Type TEXT,
+  Fac_Dept TEXT,
   Fac_Add TEXT,
   Fac_TMK TEXT,
   GW_Risk TEXT,
@@ -198,5 +251,16 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Count_CB INTEGER,
   Count_Chan INTEGER,
   Count_DS INTEGER,
-  Count_TD INTEGER
+  Count_TD INTEGER,
+  OFFSITE_SD_Exist TEXT,
+  Dmg_Pave INTEGER,
+  TFMR_Exist TEXT,
+  DS_SS_Exist TEXT,
+  Can_Add_SD TEXT,
+  Unpave_Area FLOAT,
+  EM_Area FLOAT,
+  Drainage_Area_Acres FLOAT,
+  FOREIGN KEY (existing_facility_risk_id) REFERENCES facility_risks(facility_risk_id),
+  FOREIGN KEY (facility_monthly_rain_id) REFERENCES facility_monthly_rain(facility_monthly_rain_id),
+  CONSTRAINT unq_fac_name UNIQUE(fac_name)
 );
