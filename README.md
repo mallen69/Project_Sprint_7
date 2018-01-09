@@ -1,4 +1,7 @@
-# Sprint 1: Data Formats and Terminology
+# Module 1: Acquiring Data and Data Formats
+  *"Getting" the data you want to analyze means downloading it from websites, connecting to and querying databases, extracting it from HTML webpages, interfacing with APIs (Application Programmer Interfaces) importing and exporting files, and converting back and forth between data formats. Programming languages, databases, command line-based applications and graphical applications each have something to offer*
+
+ ## Sprint 1: Data Formats and Terminology
 
 |Author|Skill Story|Project|Highlights|
 |---|---|---|---|
@@ -14,11 +17,7 @@
 
 
 
-# Sprint 2: Connecting to Data Sources
-
-*"Getting" the data you want to analyze means downloading it from websites, connecting to and querying databases, extracting it from HTML webpages, interfacing with APIs (Application Programmer Interfaces) importing and exporting files, and converting back and forth between data formats. Programming languages, databases, command line-based applications and graphical applications each have something to offer*
-
-
+## Sprint 2: Connecting to Data Sources
 
 |Author|Skill Story|Project Repo|Highlights|Future Work|
 |---|---|---|---|---|
@@ -31,10 +30,9 @@
 |[Runjini Murthy](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Runjini_Murthy_Roadmap.ipynb)| - [[Project Journal]](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Runjini_Murthy.ipynb)|[**ROI of an Oscar Win**]()|[Webscraping, Data Modeling, SQLiteStudio, SQL Queries, ](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/01_Sprint_Presentations/Sprint_2_Review_Presentation_Runjini.pdf)|Percent Change Calculations|
 |[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)|[-]()|[-]()|[-]()||
 |[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| As a researcher, I need to understand SQL so that I can work with larger amounts of data more efficiently [[Project Journal]](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/Victoria_Larson.ipynb)|[**SQLiteStudio & Data Types**](https://github.com/ToriLarson/ToriLarson_Sprint2)|[SQLite Studio, Queries, Data Types](https://github.com/devleague/BigDataAnalyst_ProjectDocumentation/blob/master/Sprint02_Connecting_to_Data_Sources/01_Sprint_Presentations/VL_JE_Sprint_Review2_Presentation.pdf)|[]()||
-
-
-# Sprint 3
-
+# Module 2: Basic Data Manipulation
+*Before you engage in structured analysis, you often just want to “see” the data. This can mean pre-viewing a subset of it, summarizing the columns/attributes/features, sorting or reorganizing it and otherwise finding ways to immerse yourself in your data. Again, each data tool has something to offer, and our objective is to develop a good sense of the utilities available to you.*
+## Sprint 3: Data Operations
 |Author|Skill Story|Project|Highlights|Future Work|
 |---|---|---|---|---|
 |[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)| As a data engineer, I need to understand the programming basics of automation so that I can implement algorithms and develop tools that work efficiently (also big o notation, computability and complexity, sorting and searching algorithms)[[Project Journal]](Sprint03_Data_Operation/Hunter_Heaivilin.ipynb)|[**Using R to Scrape the FAO EcoCrop Database**](https://github.com/supersistence/Data-Operations)|[TBA]()|TBA|
@@ -46,17 +44,21 @@
 |[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)|As a Data Scientist, I need to transform data or derive additional statistics from input data, so that I can highlight more telling indicators. I need to be able to discern what data is significant and prioritize areas for water reuse.[Project Journal](Sprint03_Data_Operation/Sheuli_Molla.ipynb)|[**Geopandas Operations**](https://github.com/sheulimolla/S4-GEOPANDAS-OPERATIONS)|[TBA]()|TBA|
 |[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| As a future freelancer I need to be able to upload and manipulate data into SQL & R so that I can answer questions about the data more efficiently. I would also like to gather insights that wouldn't be available using excel. [[Project Journal]](Sprint03_Data_Operation/Victoria_Larson.ipynb)|[**Comparing and Analyzing Survey Data in SQL & R**](https://github.com/ToriLarson/DataOperations_SQL_R)|[SQLite Studio, Queries, Data Types]()|[TBA]()|
 
-# Sprint 4
+## Sprint 4
+|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
+|----|----------------|------------------|----|
+|I need to be able to **convert published research and analysis from Excel / R / Python** into a different tool so I can verify and audit the analysis|I need to understand the **basic data structures in Python** so that I can diagnose and troubleshoot performance issues|I need to understand the **NumPy arrays and Pandas / R dataframes** so I can supply data to algorithms, fit models, etc|I need to understand how to export my **advanced excel skills to R / Python** so that I can build more powerful analyses on top of what I already know|
+
+
+# Module 3: Exploratory Data Analysis
+*Data analysis is built around questions, and exploratory data analysis helps you know what questions to ask. Descriptive statistics and basic visualizations that summarize features or suggest relationships inspire the generation of hypotheses to confirm with statistical tests or build into statistical models.*
+
+## Sprint 5: Summarizing and Describing
+|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
+|----|----------------|------------------|----|
+|I need to summarize the data I have so that I can report basic findings| I need to identify errors and inconsistencies in the data so that I can develop solutions to address them, and possibly their source| I need to produce basic visual plots and summary statistics of the central tendencies and range of my data set so that I can develop an intuition for and a familiarity with my data set| I need to construct inventories and quality assessment of the data available so that I can propose high value ways to use the data assets|
+
+## Sprint 6: Preliminary Findings and Hypotheses
 |Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
 |:----------------:|:----:|:------------------:|:----:|
-|I need to construct datasets from web resources, so that I can investigate issues where data are not readily available| I need to understand the full technology operating system stack and ecosystem so that I can interact with tools| I need to understand basic scripting so that I can save repeatable analyses and work| I need to be able to connect to my corporate databases, APIs and data warehouses so that I can make use of available data resources|
-
-
-# Sprint 5
-
-
-# Remaining Sprints
-|Sprint|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
-|----||:----------------:|:----:|:------------------:|:----:|
-|3. Connecting to Data Sources|I need to construct datasets from web resources, so that I can investigate issues where data are not readily available| I need to understand the full technology operating system stack and ecosystem so that I can interact with tools| I need to understand basic scripting so that I can save repeatable analyses and work| I need to be able to connect to my corporate databases, APIs and data warehouses so that I can make use of available data resources|
-|4. Exploratory data analysis |I need to construct datasets from web resources, so that I can investigate issues where data are not readily available| I need to understand the full technology operating system stack and ecosystem so that I can interact with tools| I need to understand basic scripting so that I can save repeatable analyses and work| I need to be able to connect to my corporate databases, APIs and data warehouses so that I can make use of available data resources|
+|…I need to identify interesting patterns so that I can direct further investigation| …I need to understand the volume and data types of data to understand their performance implications| …I need to produce statistical summaries that explain how variables in my data set relate to each other, so that I can develop hypotheses to guide my analysis| …I need to produce preliminary charts and dashboards so that I can communicate with other areas of the business about problems we need to solve with joint expertise and refine data collection based on feedback|
