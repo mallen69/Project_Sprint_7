@@ -165,16 +165,30 @@ CREATE TABLE wrs_pollutant_risks(
   wrs_phmax FLOAT
 );
 
-CREATE TABLE effluent_limits_facility_types(
-  -- table of the pollutants w/ effluent limits for each facility type
-  -- data is held as a wrs_pollutant_risk record
-  nel_facility_type_id PRIMARY KEY,
-  Fac_Type TEXT, -- same facility types as recorded in facility_chars **this may be a weak point. no key between the 2 fields?
+CREATE TABLE facility_types( --defines different facility facility_types
+  facility_type_id INTEGER PRIMARY KEY,
+  Fac_Type TEXT
+);
+
+CREATE TABLE facility_type_has_nel(
+  -- table indicating if a facility type is subject to an effluent limit (either by Priority Based Plan, Table 3, or as City operational assignment)
+  -- data is held as a wrs_pollutant_risk record with a 0 or 1 value:
+      -- 0 if no effluent limit exists for the facility type
+      -- 1 if effluent limit may exist for the facility type
+
+  facility_type_has_nel_id INTEGER PRIMARY KEY,
+  facility_type_id INTEGER,
   wrs_pollutant_limits_id INTEGER,
+  FOREIGN KEY (facility_type_id) REFERENCES facility_types(facility_type_id),
   FOREIGN KEY (wrs_pollutant_limits_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
 );
 
-
+CREATE TABLE nel_sample_classes ( -- holds sampling class types (PBP Appendix L). Each class is stored as a wrs_pollutant_risk record
+  nel_sample_class_id INTEGER PRIMARY KEY,
+  nel_column TEXT,
+  wrs_pollutant_class_id INTEGER,
+  FOREIGN KEY (wrs_pollutant_class_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
+);
 
 CREATE TABLE facility_risks ( --table holding risk estimates for facility (either existing risks or simulated risk reductions)
   facility_risk_id INTEGER PRIMARY KEY,
@@ -214,7 +228,7 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Permit_Table TEXT, --permit table (1, 1A, 2, or none)
   existing_facility_risk_id INTEGER, -- existing facility risks (modeled or from existing data sources)
   facility_monthly_rain_id INTEGER, -- facility monthly rainfall records
-  Fac_Type TEXT,
+  facility_type_id INTEGER,
   Fac_Dept TEXT,
   Fac_Add TEXT,
   Fac_TMK TEXT,
@@ -262,5 +276,6 @@ CREATE TABLE facility_chars ( --table holding facility characteristics
   Drainage_Area_Acres FLOAT,
   FOREIGN KEY (existing_facility_risk_id) REFERENCES facility_risks(facility_risk_id),
   FOREIGN KEY (facility_monthly_rain_id) REFERENCES facility_monthly_rain(facility_monthly_rain_id),
-  CONSTRAINT unq_fac_name UNIQUE(fac_name)
+  FOREIGN KEY (facility_type_id) REFERENCES facility_types(facility_type_id),
+  CONSTRAINT unq_fac_name UNIQUE(Fac_Name)
 );
