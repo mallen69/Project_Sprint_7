@@ -1,0 +1,9 @@
+﻿Fac_Type,wrs_tss,wrs_p,wrs_n,wrs_nn,wrs_og,wrs_phmin,wrs_phmax,wrs_an,wrs_turbidity,wrs_cu,wrs_zn,wrs_fe
+FPS,1,1,1,1,1,1,1,1,1,0,0,0
+WWTP,1,1,1,1,1,1,1,1,1,1,1,0
+Bus Maintenance Facility,1,1,1,1,1,1,1,1,1,0,0,0
+RTS,1,1,1,1,1,1,1,1,1,0,0,0
+CY,1,1,1,1,1,1,1,1,1,0,0,0
+OTH,1,1,1,1,1,1,1,1,1,0,0,0
+CSL,1,1,1,1,1,1,1,1,1,0,0,1
+GC,1,1,1,1,1,1,1,1,1,0,0,0
