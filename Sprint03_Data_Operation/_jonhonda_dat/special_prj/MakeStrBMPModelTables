@@ -175,7 +175,6 @@ CREATE TABLE facility_type_has_nel(
   -- data is held as a wrs_pollutant_risk record with a 0 or 1 value:
       -- 0 if no effluent limit exists for the facility type
       -- 1 if effluent limit may exist for the facility type
-
   facility_type_has_nel_id INTEGER PRIMARY KEY,
   facility_type_id INTEGER,
   wrs_pollutant_limits_id INTEGER,
