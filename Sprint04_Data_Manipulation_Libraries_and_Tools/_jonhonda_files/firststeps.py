@@ -24,10 +24,10 @@ s = users.select()
 rs = s.execute()
 
 row = rs.fetchone()
-print 'Id:', row[0]
-print 'Name:', row['name']
-print 'Age:', row.age
-print 'Password:', row[users.c.password]
+print ('Id:', row[0])
+print ('Name:', row['name'])
+print ('Age:', row.age)
+print ('Password:', row[users.c.password])
 
 for row in rs:
-    print row.name, 'is', row.age, 'years old'
+    print (row.name, 'is', row.age, 'years old')
