@@ -44,7 +44,7 @@
 |[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)|As a Data Scientist, I need to transform data or derive additional statistics from input data, so that I can highlight more telling indicators. I need to be able to discern what data is significant and prioritize areas for water reuse.[Project Journal](Sprint03_Data_Operation/Sheuli_Molla.ipynb)|[**Geopandas Operations**](https://github.com/sheulimolla/S4-GEOPANDAS-OPERATIONS)|[TBA]()|TBA|
 |[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| As a future freelancer I need to be able to upload and manipulate data into SQL & R so that I can answer questions about the data more efficiently. I would also like to gather insights that wouldn't be available using excel. [[Project Journal]](Sprint03_Data_Operation/Victoria_Larson.ipynb)|[**Comparing and Analyzing Survey Data in SQL & R**](https://github.com/ToriLarson/DataOperations_SQL_R)|[SQLite Studio, Queries, Data Types]()|[TBA]()|
 
-## Sprint 4
+## Sprint 4: Data Manipulation Libraries
 |Author|Skill Story|Project|Highlights|
 |---|---|---|---|
 |[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)| As a spatial analyst, I need to perform analyses across time series so that change can be assessed (sped up).  [[Journal]](Sprint04_Data_Manipulation_Libraries_and_Tools/Hunter_Heaivilin.ipynb)|[**Beginning Spacial R**](https://github.com/supersistence/Beginning-Spatial-R) |[TBD]()|
@@ -63,7 +63,7 @@
 ## Sprint 5: Summarizing and Describing
 |Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
 |----|----------------|------------------|----|
-|I need to summarize the data I have so that I can report basic findings| I need to identify errors and inconsistencies in the data so that I can develop solutions to address them, and possibly their source| I need to produce basic visual plots and summary statistics of the central tendencies and range of my data set so that I can develop an intuition for and a familiarity with my data set| I need to construct inventories and quality assessment of the data available so that I can propose high value ways to use the data assets|
+|I need to **summarize the data I have** so that I can report basic findings| I need to **identify errors and inconsistencies in the data** so that I can develop solutions to address them, and possibly their source| I need to **produce basic visual plots and summary statistics of the central tendencies and range of my data set** so that I can develop an intuition for and a familiarity with my data set| I need to **construct inventories and quality assessment of the data available** so that I can propose high value ways to use the data assets|
 
 ## Sprint 6: Preliminary Findings and Hypotheses
 |Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
