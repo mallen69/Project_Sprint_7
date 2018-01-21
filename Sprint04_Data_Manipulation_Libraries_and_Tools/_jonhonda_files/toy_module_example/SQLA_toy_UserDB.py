@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from SQLA_Base_toy import Base
+from SQLA_toy_Base import Base
 from sqlalchemy.orm import relationship
 
 class User(Base):

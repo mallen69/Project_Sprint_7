@@ -194,11 +194,11 @@ unqTests = {
     'locations': False
 }
 
-
-importCSV('2_table_input.csv', unqTests)
-#test some reords
-for u, a in session.query(People, Locations).filter(People.id==Locations.people_id):
-    print (u,a)
+#for testing:
+# importCSV('2_table_input.csv', unqTests)
+# #test some reords
+# for u, a in session.query(People, Locations).filter(People.id==Locations.people_id):
+#     print (u,a)
 
 session.close()
 engine.dispose()

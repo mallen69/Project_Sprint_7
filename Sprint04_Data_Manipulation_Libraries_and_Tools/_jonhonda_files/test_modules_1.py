@@ -1,4 +1,6 @@
 import os
+def test():
+    print ('hello')
 
 def remFile(filepath):
     try:

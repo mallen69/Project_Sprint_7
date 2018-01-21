@@ -6,7 +6,7 @@ engine = create_engine('sqlite:///:memory:', echo = False)
 
 #NOW DEFINE DB SCHEMA (THIS DOESN'T WRITE SCHEMA TO DB, JUST TO SQLALCHEMY CLASSES AND OBJECTS)
 #define an SQLAlchemy base class to maintain catalog of classes and tables relative to this base
-from SQLA_Base_toy import Base
+from SQLA_toy_Base import Base
 
 #use the base class to define mapped classes in terms of it:
 from sqlalchemy import Column, Integer, String
@@ -15,7 +15,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship #http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#relationship-pattern
 
 #NOW WRITE SCHEMA TO DB (THIS WRITES TO SQLITE DB):
-from userDB import User
+from SQLA_toy_UserDB import User
 
 Base.metadata.create_all(engine) #build DB schema from Base objects
 
