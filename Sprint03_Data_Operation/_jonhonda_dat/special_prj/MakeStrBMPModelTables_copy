@@ -30,15 +30,6 @@ CREATE TABLE base_bmp_facility_values( --table holding facility calculated value
   FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id)
 );
 
-CREATE TABLE feasibility_test_questions( -- table holding feasibility questions for bmp_feasibility_test_results
-  feasibility_test_question_id INTEGER PRIMARY KEY,
-  feas_id TEXT, -- id used in input sheets to identify the feasibility question
-  question_english TEXT, -- question in plain english_question,
-  question_expression_id INTEGER, -- question as an expression (held in expressions table),
-  FOREIGN KEY (question_expression_id) REFERENCES expressions(expression_id)
-);
-CREATE UNIQUE INDEX idx_ftq_feas_id ON feasibility_test_questions(feas_id);
-
 CREATE TABLE base_bmp_feasibility_test_definitions( --table holding feasibility test definitions for each base bmp
   base_bmp_feasibility_test_definition_id INTEGER PRIMARY KEY,
   feasibility_test_question_id INTEGER,
