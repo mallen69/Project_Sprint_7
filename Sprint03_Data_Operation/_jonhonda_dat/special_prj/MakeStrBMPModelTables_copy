@@ -90,13 +90,7 @@ CREATE TABLE facility_bmp_options(
   FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
 );
 
-CREATE TABLE expressions(
-  expression_id INTEGER PRIMARY KEY,
-  expression_name TEXT,
-  expression_str TEXT,
-  expression_data_type TEXT,
-  vars BLOB
-);
+
 
 CREATE TABLE scenarios(
   scenario_id INTEGER PRIMARY KEY,
