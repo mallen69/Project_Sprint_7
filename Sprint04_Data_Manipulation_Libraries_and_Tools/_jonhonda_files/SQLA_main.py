@@ -2,7 +2,7 @@
 #import a single csv containing 2 or more tables. Tables can have PK-FK relations.
 #build SQLAlchemy objects, build DB:
 #connect to SQLite DB w/ SQLAlchemy ORM:
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 import os
 #deprecate working w/ dbs located on disk for now.
 # dbfilename = '_jonhonda_files//test.db' #right now code writes to memory, later change to write to disk not used right now.
@@ -16,18 +16,20 @@ import os
 from SQLA_Base import Base
 
 #for now work w/ dbs in memory
-engine = create_engine('sqlite:///:memory:', echo = False)
+# engine = create_engine('sqlite:///:memory:', echo = False)
 
 #NOW DEFINE DB SCHEMA (THIS DOESN'T WRITE SCHEMA TO DB, JUST TO SQLALCHEMY CLASSES AND OBJECTS)
 #define an SQLAlchemy base class to maintain catalog of classes and tables relative to this base
 from SQLA_DB_User import People
 from SQLA_DB_Locations import Locations
+from SQLA_conn_man import session, engine
+
 Base.metadata.create_all(engine, checkfirst=True)
 
 #now generate session object:
-from sqlalchemy.orm import sessionmaker
-Session = sessionmaker(bind=engine) #define Session class, which is a factory for making session objects (poor naming choice, in my opinion - why the do it this way??!)
-session = Session() #make a session
+# from sqlalchemy.orm import sessionmaker
+# Session = sessionmaker(bind=engine) #define Session class, which is a factory for making session objects (poor naming choice, in my opinion - why the do it this way??!)
+# session = Session() #make a session
 
 
 #use the base class to define mapped classes in terms of it:
@@ -54,14 +56,14 @@ def getPKFieldNames (myTable):
 
     Raises:
         None.
+        """Inserts or updates values into a table's fields subject to some constraints.
     """
      #get Table.primary key using inspector. inspector requires iterator, so iterate pk into a list
     return [PKname.key for PKname in inspect(myTable).primary_key][0]#Use 1st element of list.
 
 def insertupdateRec(myTable, setFieldVals, whereConstraint):
-    """Inserts or updates values into a table's fields subject to some constraints.
-
     Only works on one record row at a time. So only pass in 1 record's args
+
 
     Args:
         myTable: the metadata.table that we want to insert/update on.
