@@ -118,21 +118,7 @@ CREATE TABLE scenario_iteration_bmp_options(
   FOREIGN KEY (facility_bmp_option_id) REFERENCES facility_bmp_options(facility_bmp_option_id)
 );
 
-CREATE TABLE pollutant_removal_rates(
-  pollutant_removal_rates_id INTEGER PRIMARY KEY,
-  r_tss FLOAT,
-  r_turbidity FLOAT,
-  r_p FLOAT,
-  r_n FLOAT,
-  r_nn FLOAT,
-  r_an FLOAT,
-  r_og FLOAT,
-  r_cu FLOAT,
-  r_zn FLOAT,
-  r_fe FLOAT,
-  r_phmin FLOAT,
-  r_phmax FLOAT
-);
+
 
 
 
