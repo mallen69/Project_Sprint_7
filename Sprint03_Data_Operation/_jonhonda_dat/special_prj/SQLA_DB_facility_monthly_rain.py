@@ -18,7 +18,6 @@ class Facility_Monthly_Rain(Base):
     October = Column(Float) # month's rain depth in inches
     November = Column(Float) # month's rain depth in inches
     December = Column(Float) # month's rain depth in inches
-
     facility_chars = relationship("Facility_Chars") #setup 1:many relationship between table noted in this line, and this class
 
     # def __repr__(self):

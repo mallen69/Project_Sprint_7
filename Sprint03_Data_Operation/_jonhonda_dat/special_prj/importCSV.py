@@ -34,7 +34,7 @@ def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
         myTempRecDicts[aheader[C_TABLE]].update(mytmpDict) #place temp dictionary value into current rec's dictionary of tables an assoc. header-values
     myRowRecDict={} #dictionary of record ids inserted/updated for current row: {PKName:PK_ID}
     for myTableName,myRecDict in myTempRecDicts.items():
-        #insert table and record's return primary key
+        #insert table and record's return primary
         myTable = Base.metadata.tables[myTableName]
         PKLS = SQLA_main.getPKFieldNames(myTable)#get primary key field for myTable
         if updateWhereLF==False or updateWhereLF[myTableName] == False:#force insert (update if PKid==-1234 which can't happen)
