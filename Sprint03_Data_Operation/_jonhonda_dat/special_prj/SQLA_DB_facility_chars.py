@@ -7,7 +7,7 @@ class Facility_Chars(Base):
     id = Column(Integer, primary_key=True)
     Fac_Name = Column(String(), unique=True)
     Permit_Table = Column(String()) #--permit table (1, 1A, 2, or none)
-    existing_facility_risk_id = Column(Integer, ForeignKey('facility_risks.id')) #-- existing facility risks (modeled or from existing data sources)
+    existing_facility_risk_id = Column(Integer, ForeignKey('facility_risks.id')) #-- existing facility risk estimate record_id (modeled or from existing data sources)
     facility_monthly_rain_id = Column(Integer, ForeignKey('facility_monthly_rain.id')) #-- facility monthly rainfall records
     facility_type_id = Column(Integer, ForeignKey('facility_types.id'))## facility types as defined in the facility types table
     Fac_Dept = Column(String())

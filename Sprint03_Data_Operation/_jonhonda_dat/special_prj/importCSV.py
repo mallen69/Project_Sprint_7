@@ -20,7 +20,6 @@ from SQLA_conn_man import session, engine #module handling db and connection cre
 
 def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
     #importCSV helper function to handle inserting a single CSV row
-    #currently forces insert (will be changed to discriminate based on existance of record using lambda function)
         #headersDict: dictionary of form: {table.field:[table,field]}
         #CSVrow: single row of a csv reader loop
         #updateWhereLF:where Clause as a lambda function to pass to insert/updater to determinE record existance
@@ -41,12 +40,14 @@ def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
             PKCol = myTable.c[PKLS] #get sqlAlchemy object for PK Field
             rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, (lambda PKid: PKid == -1234)(PKCol))
         else: #use where clause lambda function to evaluate insert/update
+            print (myRecDict)
             rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, updateWhereLF[myTableName](myRecDict))
         myRowRecDict.update({myTableName + '.' + PKLS:rec_id}) #add PK id to record of rows added
     return myRowRecDict
 
 def _HELPER_assocKEYS(myRecsLS, tablesLS):
     #helper function to associate primary-foreign key pairings during importCSV of mixed tables:
+        #retrieves pk-fk relationships from sqlAlchemy's schema for tables mentioned in at least 1 CSV column name (passed in as tablesLS)
      #find PK-FK links between tables
     PkFkLS = [] #init empty pk-fk list, of assumed form: [[PKTable.PKCOL,FKTable.FKCol],[PKTable.PKCOL,FKTable.FKCol],...]
     for myTable in tablesLS:
