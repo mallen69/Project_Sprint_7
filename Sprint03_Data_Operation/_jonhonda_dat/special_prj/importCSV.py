@@ -74,21 +74,30 @@ def _HELPER_assocKEYS(myRecsLS, tablesLS):
                 SQLA_main.updateRec(FkTable, {FkFKField.name:arecPKid}, (lambda x,y: x == y)(FkPKField, constrVal))
 
 def importCSV(csvPath, unqTests):
-    #assume header given in form: tablename.fieldname
-    # assume all table and header names match database table and field names
-    #csvPath: path and file name for csv we want to import
-    #unqTests: Dictionary of "SQLAlchemy where clause lambda functions" that tests record uniqueness.
-    # e.g. entries in the 'name' field of the people table must be unique.
-    # Therefore, we determine whether to insert/update a csv row into the people table based on
-    # whether the csv row's name field value exists in the people table.
-    #
-    # if table has no record uniqueness requirement, then enter: TableName:False
-    # '''
-    # unqTests = {
-    #     'people': lambda RowVal: Base.metadata.tables['people'].c['name'] == RowVal['name'],
-    #     'locations': False
-    # }
+    '''
+    ****IMPORTANT NOTE: function assumes csv in the utf-8-sig file format. weird things happen if its not in this format!!!
 
+    Dictionary of "SQLAlchemy where clause lambda functions" that importCSV uses to test record uniqueness.
+    used as the where clause in sqlalchemy queries, updates and deletes
+    Form:
+        TableName:Lambda Function
+
+        TableName is the table name we want to define uniqueness test for
+        Lambda Function can take on any form but must be made to evaluate the CSV row passed as a dictionary (CSVRowDict in this explanation):
+            CSVRowDict: {FieldName:CSVColValue, DBTableFieldName:CSVColValue...}
+                Where: DBTableFieldName is the name of the field associated with the value at CSVColValue on the current row
+                   CSVColValue: a value in the CSV's current row+column corresponding to the DBTableFieldName
+            *this assumes that field names are unique across table. if not, then method fails (maybe need to extend method?)
+
+    e.g.: lambda myRowVal: Base.metadata.tables['people'].c['name'] == CSVRowDict['name']
+            using lambda function in query will search for CSVRowDict's value for 'name' in the table people, field name
+    if table has no record uniqueness requirement, then enter: TableName:False
+
+        # unqTests = {
+        #     'people': lambda CSVRowDict: Base.metadata.tables['people'].c['name'] == CSVRowDict['name'],
+        #     'locations': False
+        # }
+    '''
     import csv
     C_TABLE = 0 #header 0th element is table name
     C_FIELD = 1 #header 1st element is field name
@@ -103,9 +112,11 @@ def importCSV(csvPath, unqTests):
                 tablesLS.append(aheader[C_TABLE])
         #record primary keys inserted/updated during importing of csv row data.
                     #represent as a list of dicts {Table.PKName:PKid} for table of a given record. Each record is 1 element of list
+        print('importing data in CSV rows...')
         myRecsLS = [_HELPER_importCSVrow(headersDict,CSVrow, unqTests) for CSVrow in csvreader]
+        print ('imported records in ', len(myRecsLS), ' ')
+        print ('associating records...')
     _HELPER_assocKEYS(myRecsLS, tablesLS)
-    session.commit()
 
 #FOR TESTING PURPOSES:
 # '''

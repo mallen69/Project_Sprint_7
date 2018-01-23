@@ -7,9 +7,8 @@ class Facility_Types(Base):
     __tablename__ = 'facility_types'
     id = Column(Integer, primary_key=True)
     Fac_Type = Column(String(), unique=True)
-
     facility_chars = relationship("Facility_Chars") #setup 1:many relationship between table noted in this line, and this class
 
-    # def __repr__(self):
-    #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
-    #                         self.city, self.country, self.people_id)
+    def __repr__(self):
+        return "<Facility_Types(id='%s',Fac_Type='%s')>" % (
+                            self.id, self.Fac_Type)
