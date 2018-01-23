@@ -53,11 +53,11 @@ def insertupdateRec(myTable, setFieldVals, whereConstraint):
     """
     PKName = getPKFieldNames(myTable) #shove parts of this into getPKFieldNames
     ret = session.query(myTable.c[PKName]).filter(whereConstraint) #determine existance of record w/ whereConstraint
-    try:
-        PKid = ret.one()[0] #get value of matching record. errors if no record exists
-        updateRec(myTable, setFieldVals, whereConstraint)
-    except:
+    if ret.first() is None: #then no record exists. do insert
         PKid = insertRec(myTable, setFieldVals)
+    else: #record exists. update it using whereConstraint to get matching record
+        PKid = ret.first()[0] #get value of matching record. errors if no record exists
+        updateRec(myTable, setFieldVals, (lambda x,y: x == y)(myTable.c[PKName], PKid))
     return PKid
 
 def insertRec(myTable, setFieldVals):
@@ -73,7 +73,7 @@ def updateRec(updateTable, setFieldVals, updateWhereLF):
         #ex: updateRecs(FkTable, {FkFKField.name:arecPKid}, (lambda x,y: x == y)(FkPKField, constrVal))
         #updateTable: table to update
         #setFieldVals: dictionarinserted_proimary_key[0]y of fields and vals to be updated: {fieldname:val,fieldname:val}
-        #updateWhereLF: update constraints where constraint, passed as a lambda function, is true
+        #updateWhereLF: update constraints where constraint, passed as a lambda function, is
     u = update(updateTable) #make a SQLAlchemy update object for updateTable
     u = u.values(setFieldVals) #set update values
     u = u.where(updateWhereLF) #define update's where clause

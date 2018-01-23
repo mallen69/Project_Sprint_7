@@ -5,20 +5,6 @@
 
 
 
-CREATE TABLE base_bmps( --table defining bmp technologies
-  base_bmp_id INTEGER PRIMARY KEY,
-  bmp_name TEXT,
-  bmp_removal_rates_id INTEGER, --FK reference to bmp removal rates table
-  cip_expression_id INTEGER,
-  om_expression_id INTEGER,
-  bmp_size_expression_id INTEGER,
-  FOREIGN KEY (bmp_removal_rates_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id),
-  FOREIGN KEY (cip_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (om_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (bmp_size_expression_id) REFERENCES expressions(expression_id)
-);
-CREATE UNIQUE INDEX idx_base_bmp ON base_bmps(bmp_name);
-
 CREATE TABLE base_bmp_facility_values( --table holding facility calculated values for base bmps
   base_bmp_facility_value_id INTEGER PRIMARY KEY,
   base_bmp_id INTEGER,
@@ -30,13 +16,7 @@ CREATE TABLE base_bmp_facility_values( --table holding facility calculated value
   FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id)
 );
 
-CREATE TABLE base_bmp_feasibility_test_definitions( --table holding feasibility test definitions for each base bmp
-  base_bmp_feasibility_test_definition_id INTEGER PRIMARY KEY,
-  feasibility_test_question_id INTEGER,
-  base_bmp_id INTEGER, --FK reference to the base bmp primary key
-  FOREIGN KEY (feasibility_test_question_id) REFERENCES feasibility_test_questions(feasibility_test_question_id),
-  FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
-);
+
 
 CREATE TABLE base_bmp_feasibility_test_results(
   base_bmp_feasibility_test_result_id INTEGER PRIMARY KEY,

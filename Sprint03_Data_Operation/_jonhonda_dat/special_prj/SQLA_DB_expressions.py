@@ -11,7 +11,7 @@ class Expressions(Base):
     vars = Column(BLOB)
 
     feasibility_test_questions = relationship("Feasibility_Test_Questions") #setup 1:many relationship between table noted in this line, and this class
-    base_bmps = relationship("Base_BMPs") #setup 1:many relationship between table noted in this line, and this class
+    # base_bmps = relationship("Base_BMPs") #setup 1:many relationship between table noted in this line, and this class
 
     # def __repr__(self):
     #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (

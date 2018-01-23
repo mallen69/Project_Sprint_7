@@ -12,6 +12,13 @@ class Base_BMPs(Base):
     om_expression_id = Column(Integer, ForeignKey('expressions.id'))
     bmp_size_expression_id = Column(Integer, ForeignKey('expressions.id'))
 
+    base_bmp_feasibility_test_definitions = relationship("Base_BMP_Feasibility_Test_Definitions") #setup 1:many relationship between table noted in this line, and this class
+
+    cip_expression = relationship('Expressions', foreign_keys = [cip_expression_id])
+    om_expression = relationship('Expressions', foreign_keys = [om_expression_id])
+    bmp_size_expression = relationship('Expressions', foreign_keys = [bmp_size_expression_id])
+
+
     def __repr__(self):
         return "<Base_BMPs(id='%s', bmp_name='%s)>" % (
                             self.id, self.bmp_name)
