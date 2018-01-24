@@ -1,5 +1,13 @@
 
-# Module 2: Basic Data Manipulation
+### Module 3: Exploratory Data Analysis
+*Data analysis is built around questions, and exploratory data analysis helps you know what questions to ask. Descriptive statistics and basic visualizations that summarize features or suggest relationships inspire the generation of hypotheses to confirm with statistical tests or build into statistical models.*
+
+## Sprint 5: Summarizing and Describing
+|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
+|----|----------------|------------------|----|
+|I need to **summarize the data I have** so that I can report basic findings| I need to **identify errors and inconsistencies in the data** so that I can develop solutions to address them, and possibly their source| I need to **produce basic visual plots and summary statistics of the central tendencies and range of my data set** so that I can develop an intuition for and a familiarity with my data set| I need to **construct inventories and quality assessment of the data available** so that I can propose high value ways to use the data assets|
+
+### Module 2: Basic Data Manipulation
 *Before you engage in structured analysis, you often just want to “see” the data. This can mean pre-viewing a subset of it, summarizing the columns/attributes/features, sorting or reorganizing it and otherwise finding ways to immerse yourself in your data. Again, each data tool has something to offer, and our objective is to develop a good sense of the utilities available to you.*
 
 ## Sprint 4: Data Manipulation Libraries and Tools - [*Content*](Sprint04_Data_Manipulation_Libraries_and_Tools/00_Sprint_Classroom_Content.ipynb)
@@ -59,13 +67,7 @@
 
 
 
-# Module 3: Exploratory Data Analysis
-*Data analysis is built around questions, and exploratory data analysis helps you know what questions to ask. Descriptive statistics and basic visualizations that summarize features or suggest relationships inspire the generation of hypotheses to confirm with statistical tests or build into statistical models.*
 
-## Sprint 5: Summarizing and Describing
-|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
-|----|----------------|------------------|----|
-|I need to **summarize the data I have** so that I can report basic findings| I need to **identify errors and inconsistencies in the data** so that I can develop solutions to address them, and possibly their source| I need to **produce basic visual plots and summary statistics of the central tendencies and range of my data set** so that I can develop an intuition for and a familiarity with my data set| I need to **construct inventories and quality assessment of the data available** so that I can propose high value ways to use the data assets|
 
 ## Sprint 6: Preliminary Findings and Hypotheses
 |Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
