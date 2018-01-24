@@ -2,7 +2,7 @@
 ### Module 3: Exploratory Data Analysis
 *Data analysis is built around questions, and exploratory data analysis helps you know what questions to ask. Descriptive statistics and basic visualizations that summarize features or suggest relationships inspire the generation of hypotheses to confirm with statistical tests or build into statistical models.*
 
-## Sprint 5: Summarizing and Describing
+## Sprint 5: Summarizing and Describing - [*Content*](Sprint05_Summarizing_Describing/00_Sprint_Classroom_Content.ipynb)
 |Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
 |----|----------------|------------------|----|
 |I need to **summarize the data I have** so that I can report basic findings| I need to **identify errors and inconsistencies in the data** so that I can develop solutions to address them, and possibly their source| I need to **produce basic visual plots and summary statistics of the central tendencies and range of my data set** so that I can develop an intuition for and a familiarity with my data set| I need to **construct inventories and quality assessment of the data available** so that I can propose high value ways to use the data assets|
@@ -32,7 +32,7 @@
 |[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)|[**Geopandas Operations**](https://github.com/sheulimolla/S4-GEOPANDAS-OPERATIONS)|[Journal](Sprint03_Data_Operation/Sheuli_Molla.ipynb)|
 |[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| [**Comparing and Analyzing Survey Data in SQL & R**](https://github.com/ToriLarson/DataOperations_SQL_R)|[Journal](Sprint03_Data_Operation/Victoria_Larson.ipynb)|
 
-# Module 1: Acquiring Data and Data Formats
+### Module 1: Acquiring Data and Data Formats
   *"Getting" the data you want to analyze means downloading it from websites, connecting to and querying databases, extracting it from HTML webpages, interfacing with APIs (Application Programmer Interfaces) importing and exporting files, and converting back and forth between data formats. Programming languages, databases, command line-based applications and graphical applications each have something to offer*
 
   ## Sprint 2: Connecting to Data Sources - [*Content*](Sprint02_Connecting_to_Data_Sources/00_Sprint_Classroom_Content.ipynb)
