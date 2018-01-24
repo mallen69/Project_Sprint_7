@@ -1,3 +1,8 @@
+# Big Data Analyst Cohort 1
+*Included below are the projects undertaken by cohort members for the sprints completed so far*
+
+[Useful Snippets](Sprint00_Meta_Content/03_Useful_Snippets): (snippets of Python and R code extracted from projects)
+
 
 ### Module 3: Exploratory Data Analysis
 *Data analysis is built around questions, and exploratory data analysis helps you know what questions to ask. Descriptive statistics and basic visualizations that summarize features or suggest relationships inspire the generation of hypotheses to confirm with statistical tests or build into statistical models.*
