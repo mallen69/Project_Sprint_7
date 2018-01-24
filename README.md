@@ -20,7 +20,7 @@
 ## Sprint 4: Data Manipulation Libraries and Tools - [*Content*](Sprint04_Data_Manipulation_Libraries_and_Tools/00_Sprint_Classroom_Content.ipynb)
 |Author|Project|Docs|
 |---|---|---|
-|[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**Beginning Spacial R**](https://github.com/supersistence/Beginning-Spatial-R) |[Journal](Sprint04_Data_Manipulation_Libraries_and_Tools/Hunter_Heaivilin.ipynb)|
+|[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**Beginning Spatial R**](https://github.com/supersistence/Beginning-Spatial-R) |[Journal](Sprint04_Data_Manipulation_Libraries_and_Tools/Hunter_Heaivilin.ipynb)|
 |[Jon Honda](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Jon_Honda_Roadmap.ipynb)| [**Libraries and Refactoring**](https://github.com/hondajyh/Sprint_4_data_manipulation_and_tools) |[Journal](Sprint04_Data_Manipulation_Libraries_and_Tools/Jon_Honda.ipynb)|
 |[Michael Allen](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Michael_Allen.ipynb)| [**Cleaning “Dirty Data” from Excel And Making it “Tidy” in R - Part 2**](https://github.com/mallen69/Project_Sprint_4) |[Journal](Sprint04_Data_Manipulation_Libraries_and_Tools/Michael_Allen.ipynb)|
 |[Natalie Ramirez](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Natalie_RoadMap.ipynb)|  [**Data Manipulation**](https://github.com/nat-nat33/data-manipulation) |[Journal](Sprint04_Data_Manipulation_Libraries_and_Tools/Natalie_Ramirez.ipynb)|
