@@ -40,7 +40,6 @@ def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
             PKCol = myTable.c[PKLS] #get sqlAlchemy object for PK Field
             rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, (lambda PKid: PKid == -1234)(PKCol))
         else: #use where clause lambda function to evaluate insert/update
-            print (myRecDict)
             rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, updateWhereLF[myTableName](myRecDict))
         myRowRecDict.update({myTableName + '.' + PKLS:rec_id}) #add PK id to record of rows added
     return myRowRecDict
@@ -115,7 +114,7 @@ def importCSV(csvPath, unqTests):
                     #represent as a list of dicts {Table.PKName:PKid} for table of a given record. Each record is 1 element of list
         print('importing data in CSV rows...')
         myRecsLS = [_HELPER_importCSVrow(headersDict,CSVrow, unqTests) for CSVrow in csvreader]
-        print ('imported records in ', len(myRecsLS), ' ')
+        print ('imported records in ', len(myRecsLS), ' rows')
         print ('associating records...')
     _HELPER_assocKEYS(myRecsLS, tablesLS)
 
