@@ -15,9 +15,9 @@ class Facility_Risks(Base):
     wrs_pollutant_concentrations_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id'))# existing pollutant concentrations from sampling data, or modeled (stor in WRS table for convenience)
     wrs_pollutant_risks_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # WRS pollutant risk score components
     wrs_total_risk = Column(Float)
-    wrs_pollutant_limits = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_limits_id])
-    wrs_pollutant_concentrations = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_concentrations_id])
-    wrs_pollutant_risks = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_risks_id])
+    wrs_pollutant_limits = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_limits_id]) #additional information need when multiple fields in a table use the same foreign_key field *(but not necessarily all pointing to same record)
+    wrs_pollutant_concentrations = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_concentrations_id]) #additional information need when multiple fields in a table use the same foreign_key field *(but not necessarily all pointing to same record)
+    wrs_pollutant_risks = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_risks_id]) #additional information need when multiple fields in a table use the same foreign_key field *(but not necessarily all pointing to same record)
     facility_chars = relationship("Facility_Chars") #setup 1:many relationship between table noted in this line, and this class
 
 

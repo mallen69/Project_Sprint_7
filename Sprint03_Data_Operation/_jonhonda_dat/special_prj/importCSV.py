@@ -17,11 +17,18 @@ import SQLA_main as SQLA_main #import main SQLAlchemy functions
 from SQLA_Base import Base #module containing declarative_base
 from SQLA_conn_man import session, engine #module handling db and connection creation
 
+def _HELPER_MakeNoneType(val):
+    #make none type if passed value matches an acceptable type (for now, just 'None'):
+    if val == 'None':
+        return None
+    else:
+        return val
 
 def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
     #importCSV helper function to handle inserting a single CSV row
         #headersDict: dictionary of form: {table.field:[table,field]}
         #CSVrow: single row of a csv reader loop
+            #replace 'None' string with NoneType
         #updateWhereLF:where Clause as a lambda function to pass to insert/updater to determinE record existance
                         #False to force insert
     #return primary keys inserted/updated using CSVrow values
@@ -29,7 +36,7 @@ def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
     C_FIELD = 1 #header 1st element is field name
     myTempRecDicts = {aheader[C_TABLE]:{} for aheader in headersDict.values()} #initialize dictionary of tables #and their associated list of  records. note the empty dict. needed b/c we will update that empty dict
     for aheader, avalue in zip(headersDict.values(),CSVrow): #write current header-value pair to a temp dictionary
-        mytmpDict = {aheader[C_FIELD]:avalue}
+        mytmpDict = {aheader[C_FIELD]:_HELPER_MakeNoneType(avalue)}
         myTempRecDicts[aheader[C_TABLE]].update(mytmpDict) #place temp dictionary value into current rec's dictionary of tables an assoc. header-values
     myRowRecDict={} #dictionary of record ids inserted/updated for current row: {PKName:PK_ID}
     for myTableName,myRecDict in myTempRecDicts.items():

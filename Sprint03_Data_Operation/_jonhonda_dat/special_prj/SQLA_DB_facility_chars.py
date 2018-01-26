@@ -7,6 +7,10 @@ class Facility_Chars(Base):
     id = Column(Integer, primary_key=True)
     Fac_Name = Column(String(), unique=True)
     Permit_Table = Column(String()) #--permit table (1, 1A, 2, or none)
+    PBP_Category = Column(String()) #Priority based plan PBP_Category
+    NEL_Column = Column(String()) #nel column(s) assigned to this facility.
+                                    #*NOTE: purposely not associated w/ NEL_sample_Classes table b/c some facilities are assigned different wet and dry season columns
+                                    #which is represented in this table's NEL_Column field as xx & Yyy
     existing_facility_risk_id = Column(Integer, ForeignKey('facility_risks.id')) #-- existing facility risk estimate record_id (modeled or from existing data sources)
     facility_monthly_rain_id = Column(Integer, ForeignKey('facility_monthly_rain.id')) #-- facility monthly rainfall records
     facility_type_id = Column(Integer, ForeignKey('facility_types.id'))## facility types as defined in the facility types table
@@ -56,6 +60,6 @@ class Facility_Chars(Base):
     EM_Area = Column(Float)
     Drainage_Area_Acres = Column(Float)
 
-    # def __repr__(self):
-    #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
-    #                         self.city, self.country, self.people_id)
+    def __repr__(self):
+        return "<Facility_Chars(id='%s', Fac_Name ='%s')>" % (
+                            self.id, self.Fac_Name)

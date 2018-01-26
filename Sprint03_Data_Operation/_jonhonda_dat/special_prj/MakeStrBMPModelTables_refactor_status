@@ -97,26 +97,3 @@ CREATE TABLE scenario_iteration_bmp_options(
   FOREIGN KEY (scenario_iteration_id) REFERENCES scenario_iterations(scenario_iteration_id),
   FOREIGN KEY (facility_bmp_option_id) REFERENCES facility_bmp_options(facility_bmp_option_id)
 );
-
-
-
-
-
-CREATE TABLE facility_type_has_nel(
-  -- table indicating if a facility type is subject to an effluent limit (either by Priority Based Plan, Table 3, or as City operational assignment)
-  -- data is held as a wrs_pollutant_risk record with a 0 or 1 value:
-      -- 0 if no effluent limit exists for the facility type
-      -- 1 if effluent limit may exist for the facility type
-  facility_type_has_nel_id INTEGER PRIMARY KEY,
-  facility_type_id INTEGER,
-  wrs_pollutant_limits_id INTEGER,
-  FOREIGN KEY (facility_type_id) REFERENCES facility_types(facility_type_id),
-  FOREIGN KEY (wrs_pollutant_limits_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
-);
-
-CREATE TABLE nel_sample_classes ( -- holds sampling class types (PBP Appendix L). Each class is stored as a wrs_pollutant_risk record
-  nel_sample_class_id INTEGER PRIMARY KEY,
-  nel_column TEXT,
-  wrs_pollutant_class_id INTEGER,
-  FOREIGN KEY (wrs_pollutant_class_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
-);
