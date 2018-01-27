@@ -1,19 +1,26 @@
 '''
 Name: expression.py
 routines to help insert expressions to the database and evaluate expressions
+ NOTES ON INSERTION:
+
+
+ NOTES ON EVALUATION:
+  THERE IS A COUNTER FOR EVAL ERRORS!
+  SEE BELOW FOR RETRIEVING ERROR COUNT AND RESETTING IT.
 
 '''
+#IMPORT python:
+import traceback
 
+#IMPORT SQLA:
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import update, insert
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship #http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#relationship-patterns
 from sqlalchemy import inspect
-
 import SQLA_main as SQLA_main #import main SQLAlchemy functions
 from SQLA_Base import Base #module containing declarative_base
 from SQLA_conn_man import session, engine #module handling db and connection creation
-
 #Table definitions as SQLA classes:
 from SQLA_DB_expressions import Expressions
 Base.metadata.create_all(engine, checkfirst=True) #create SQLA classes
@@ -95,7 +102,7 @@ def registerExpr (expression_name, expression_str, VarDict):
     expression_id = SQLA_main.insertupdateRec(myTable, myRecDict, (lambda expr_nameCol, expr_nameVal: expr_nameCol == expr_nameVal)(myTable.c['expression_name'], expression_name))
     return expression_id
 
-#EXPRESSION EVALUATOR:
+################EXPRESSION EVALUATOR:
 import pickle
 #### DEFINE GLOBALLY SCOPED CONSTANTS TO HELP UNDERSTAND WHAT ARRAY ELEMENT WE'RE ACCESSING:
 C_VarDict_VarName = 0 #### Constant for Var Dict Key
@@ -109,6 +116,22 @@ C_VarDict_StoredField = 3
 C_VarDict_QryOnUniqueField = 4
 C_VarDict_DataType = 5
 
+_EVAL_ERROR_COUNT = 0
+
+def ResetEvalErrorCount():
+    #RESET ERROR COUNTER TO 0
+    global _EVAL_ERROR_COUNT
+    _EVAL_ERROR_COUNT = 0
+
+def _IncrementEvalErrorCount():
+    #increment counter
+    global _EVAL_ERROR_COUNT
+    _EVAL_ERROR_COUNT += 1
+
+def CountEvalErrors():
+    #return number of errors that occured during evaluating an expression since the last error count reset
+    global _EVAL_ERROR_COUNT
+    return _EVAL_ERROR_COUNT
 
 def EvalExpr(myExpression, QryOnUnqFieldValsDict): #### pass in expression record as a sqlalchemy query record
     #muyExpression: the expression record (a sqla query result) that we want to evaluate
@@ -129,7 +152,13 @@ def EvalExpr(myExpression, QryOnUnqFieldValsDict): #### pass in expression recor
     myExprStr = myExpression.expression_str
     for aVar in Vars.items(): #iterate thru each Var in Vars, replacing procstr's Var instances w/ Var's value
         myExprStr = myExprStr.replace(aVar[C_VarDict_VarName],_getVal(aVar,QryOnUnqFieldValsDict))
-    myVal = eval(myExprStr)
+    try:
+        myVal = eval(myExprStr)
+    except Exception as e:
+        print ('  FAULT!!!! Error occured while evaluating expression: ', myExprStr, ': ', e)
+        print ('  I will set evaluation to NoneType')
+        _IncrementEvalErrorCount() #INCREMENT EVALUATION ERROR COUNTER
+        myVal = None
     print ('  eval(' + str(myExprStr) + ')=' + str(myVal))
     return myVal
 
