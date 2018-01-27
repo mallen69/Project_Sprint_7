@@ -10,7 +10,9 @@ routines to help insert expressions to the database and evaluate expressions
 
 '''
 #IMPORT python:
-import traceback
+import csv
+#IMPORT custom mods:
+
 
 #IMPORT SQLA:
 from sqlalchemy import Column, Integer, String
@@ -182,7 +184,8 @@ def _getVal(aVar, QryOnUnqFieldValsDict): #retrieve DB value, or call expression
         try:
             QryOnUniqueFieldVal = QryOnUnqFieldValsDict[UnqFieldValsDict_Key]#[dbTableName + '.' + dbFieldName]
         except KeyError:
-            print ('     FAULT!!!! While evaluating the expression, I came upon a variable whos DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' was not included with the passed QryOnUnqFieldValsDict')
+            print ('     FAULT!!!! While evaluating the expression, I came upon a variable whos querying table name + field name: ', UnqFieldValsDict_Key,
+            ' was not included with the passed QryOnUnqFieldValsDict: ', QryOnUnqFieldValsDict, '.  I would have given it the key: ', UnqFieldValsDict_Key)
             return strdbVal
         myTable = Base.metadata.tables[dbTableName]
         myQrys = session.query(myTable.c[dbFieldName]).filter(myTable.c[dbQryOnUniqueField] == QryOnUniqueFieldVal)

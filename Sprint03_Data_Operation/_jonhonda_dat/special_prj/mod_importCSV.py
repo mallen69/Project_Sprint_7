@@ -7,7 +7,14 @@ The routine uses csv column names (form: TABLENAME.FIELDNAME) to identify what t
 Routine determines wheter to insert or update record using a sqlAlchemy Where clause passed into the function as a dictionary of {TAbleName: Lambda WHere Clause}
 Routine will do primary key-foreign key id association for necessary table records using sqlAlchemy's database SCHEMA
 '''
-from sqlalchemy import Column, Integer, String
+#IMPORT python:
+import csv
+
+
+#IMPORT custom mods:
+
+
+#IMPORT SQLA:emy import Column, Integer, String
 from sqlalchemy import update, insert
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship #http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#relationship-patterns
@@ -105,7 +112,7 @@ def importCSV(csvPath, unqTests):
         #     'locations': False
         # }
     '''
-    import csv
+
     C_TABLE = 0 #header 0th element is table name
     C_FIELD = 1 #header 1st element is field name
     with open(csvPath, 'rt', encoding='utf-8-sig') as csvfile:

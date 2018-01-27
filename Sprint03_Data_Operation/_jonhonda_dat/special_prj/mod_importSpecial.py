@@ -2,7 +2,12 @@
 specialty csv importers
 
 '''
+#IMPORT python:
+import csv
+#IMPORT custom mods:
+import mod_expression as Expr
 
+#IMPORT SQLA:
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import update, insert
 from sqlalchemy import ForeignKey
@@ -28,8 +33,6 @@ def importFeasibilityQuestionsCSV(importFilePath):
     # this is a 2 step process:
     # 1. import expression part
     # 2. insert feasibility record w/ assoc. to expression record
-    import csv
-    import expression as Expr #expression inserting module
     #define csv column constants:
     C_fid_element = 0
     C_english_element = 1
@@ -79,7 +82,6 @@ importBaseBMPsCSV function does the work:
         (these test definitions are held in the feasibility_test_question Table)
 '''
 def _HELPER_ImportBaseBMPsCSV_Expr (importLS, row, csvHeadersLS):
-    import expression as Expr #expression inserting module
     #import expression and variable at current row.
     #call procInputVarDecs, for current record at CSV column var_unit_ColName
     #if no error then register the expr_name expression uwing information at CSV column expr_ColName
@@ -102,8 +104,6 @@ def _HELPER_ImportBaseBMPsCSV_Expr (importLS, row, csvHeadersLS):
     return my_expr_id
 
 def importBaseBMPsCSV(importFilePath):
-    import csv
-    import expression as Expr #expression inserting module
     #define csv column constants:
     C_feastest_StartCol = 19 #1st column holding feasibility test. assume remaining rows are all feasibility tests, identified by column name
     print ('Reading csv for import to base bmp tables')
