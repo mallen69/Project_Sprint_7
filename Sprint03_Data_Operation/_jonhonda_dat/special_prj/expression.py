@@ -14,6 +14,10 @@ import SQLA_main as SQLA_main #import main SQLAlchemy functions
 from SQLA_Base import Base #module containing declarative_base
 from SQLA_conn_man import session, engine #module handling db and connection creation
 
+#Table definitions as SQLA classes:
+from SQLA_DB_expressions import Expressions
+Base.metadata.create_all(engine, checkfirst=True) #create SQLA classes
+
 def procInputVarDecs (VarDict, VarDecStr, WriteToTable, WriteToField, QryOnUniqueField, DataType):
 #function to process variable declarations;
 # return tuple: (funcStatus, VarDict)
@@ -46,7 +50,7 @@ def procInputVarDecs (VarDict, VarDecStr, WriteToTable, WriteToField, QryOnUniqu
     if mySplitter[0] == 'var': #then it's value is held in the database
         VarDict =  _add2VarDict(VarDict, mySplitter[1], 'val', WriteToTable,WriteToField, QryOnUniqueField, DataType)
     elif mySplitter[0] == 'exp': #then it's value is defined by a static database held expression
-        VarDict =  _add2VarDict(VarDict, mySplitter[1], 'exp', 'expressions','expression_str', 'expression_id', DataType)
+        VarDict =  _add2VarDict(VarDict, mySplitter[1], 'exp', 'expressions','expression_str', 'id', DataType)
     elif mySplitter[0] == 'dxp': #then it's value is defined by a dynamically defined expression
         FullVarName = mySplitter[1] #'dyn expr name(exprID_tablename~exprID_fieldname~unqFieldName)'
         ParamPart = FullVarName[FullVarName.find('('):] #slice string to just the Parameter part, including open and close parens,
@@ -90,3 +94,109 @@ def registerExpr (expression_name, expression_str, VarDict):
     myTable = Base.metadata.tables['expressions']
     expression_id = SQLA_main.insertupdateRec(myTable, myRecDict, (lambda expr_nameCol, expr_nameVal: expr_nameCol == expr_nameVal)(myTable.c['expression_name'], expression_name))
     return expression_id
+
+#EXPRESSION EVALUATOR:
+import pickle
+#### DEFINE GLOBALLY SCOPED CONSTANTS TO HELP UNDERSTAND WHAT ARRAY ELEMENT WE'RE ACCESSING:
+C_VarDict_VarName = 0 #### Constant for Var Dict Key
+#### Constants for Var Dict Array:
+# use the project standard VarDict:
+#    key = var name: [VarName, VarType, StoredTable, StoredField, QryOnUniqueField, DataType]
+C_VarDict_VarName = 0
+C_VarDict_VarType = 1
+C_VarDict_StoredTable = 2
+C_VarDict_StoredField = 3
+C_VarDict_QryOnUniqueField = 4
+C_VarDict_DataType = 5
+
+
+def EvalExpr(myExpression, QryOnUnqFieldValsDict): #### pass in expression record as a sqlalchemy query record
+    #muyExpression: the expression record (a sqla query result) that we want to evaluate
+    #QryOnUnqFieldValsDict: dictionary of table-fieldname and values that we should use in queries to obtain
+    #values we  should use in evaluating myExpression.
+    #FORMAT:
+        #{key = table.fieldname: item = unique value}
+        #this allows us to define, for example, the unique facility and base-bmp pair to query for:
+            #{facility_chars.facility_id: 2,
+            # base_bmps.bmp_name: 'hydrodynamic_separator'
+            #}
+    if myExpression.vars is None: #will be NoneType if no vars are a part of this expression record (expression is probably a constant)
+#         print ('empty')
+        Vars= {} #make empty vars dictionary
+    else:
+        Vars = pickle.loads(myExpression.vars) #unpickle to Vars variable (Dictionary type)
+    print('proccessing expression: ' +  myExpression.expression_name + '=' + myExpression.expression_str)
+    myExprStr = myExpression.expression_str
+    for aVar in Vars.items(): #iterate thru each Var in Vars, replacing procstr's Var instances w/ Var's value
+        myExprStr = myExprStr.replace(aVar[C_VarDict_VarName],_getVal(aVar,QryOnUnqFieldValsDict))
+    myVal = eval(myExprStr)
+    print ('  eval(' + str(myExprStr) + ')=' + str(myVal))
+    return myVal
+
+def _getVal(aVar, QryOnUnqFieldValsDict): #retrieve DB value, or call expression evaluation of passed variable (expects tuple of expression Query)
+    #QryOnUnqFieldValsDict: dictionary of the value that value obtaining query should query against. FORMAT:
+        #{key = table.fieldname: item = unique value}
+        #this allows us to define, for example, the unique facility and base-bmp pair to query for:
+            #{facility_chars.facility_id: 2,
+            # base_bmps.bmp_name: 'hydrodynamic_separator'
+            #}
+    print('    attempting to retrieve value for: ', aVar)
+    strdbVal = 'fault_if_still_this'
+    #unpack serialized data:
+    dbTableName = aVar[1][C_VarDict_StoredTable]
+    dbFieldName = aVar[1][C_VarDict_StoredField]
+    dbQryOnUniqueField = aVar[1][C_VarDict_QryOnUniqueField]
+    UnqFieldValsDict_Key = dbTableName + '.' + dbQryOnUniqueField
+
+    if aVar[1][C_VarDict_VarType] == 'val': #### value is housed somewhere in database. get value
+        #find matching table-field in QryOnUnqFieldValsDict:
+        try:
+            QryOnUniqueFieldVal = QryOnUnqFieldValsDict[UnqFieldValsDict_Key]#[dbTableName + '.' + dbFieldName]
+        except KeyError:
+            print ('     FAULT!!!! While evaluating the expression, I came upon a variable whos DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' was not included with the passed QryOnUnqFieldValsDict')
+            return strdbVal
+        myTable = Base.metadata.tables[dbTableName]
+        myQrys = session.query(myTable.c[dbFieldName]).filter(myTable.c[dbQryOnUniqueField] == QryOnUniqueFieldVal)
+        if myQrys.first() is not None: #handle empty record
+            dbVal = myQrys.first()[0] #### return record as value
+            if type(dbVal) == str:
+                strdbVal = '\'' + dbVal + '\'' #encapsulate in quotes so python eval reads as str and not var
+            else: #assume numeric
+                strdbVal = str(dbVal) #### cast to string
+            print('       QUERY RESULT: ' + aVar[C_VarDict_VarName] + '=' + strdbVal)
+
+    elif aVar[1][C_VarDict_VarType]=='exp':
+        print ('      This is an expression. Prepare to re-enter EvalExpr...')
+        #get expression record for the question_expression:
+        myExpr = session.query(Expressions).filter(Expressions.expression_name == aVar[C_VarDict_VarName])
+        if myExpr.first() is not None: #then record retrieved
+            dbVal = myQrys.first() #### return record as value
+            print('       Reentering EvalExpr....')
+            strdbVal = str(EvalExpr(dbVal)) #### cast to string<--there may be an error here. dbVal is a tuple?
+
+    elif aVar[1][C_VarDict_VarType]=='dxp':
+    #                dynamic_expr_format: dyn expr name(exprID_tablename~exprID_fieldname~unqFieldName)
+    #                identifies what table and field name holds reference to the expression_id, and the unique field  of the table that identifies the record.
+        print ('     This is a dynamic expression. Query for static expression using provided unique identifiers')
+        UnqFieldValsDict_Key = dbTableName + '.' + dbQryOnUniqueField
+        #get ready to query for expression id:
+        #get unique value to query on:
+        try:
+            QryOnUniqueFieldVal = QryOnUnqFieldValsDict[UnqFieldValsDict_Key]#[dbTableName + '.' + dbFieldName]
+        except KeyError:
+            print ('     FAULT!!!! While evaluating expression: DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' for the var was not included with QryOnUnqFieldValsDict')
+            return strdbVal
+
+        myTable = Base.metadata.tables[dbTableName]
+        myQrys = session.query(myTable.c[dbFieldName]).filter(myTable.c[dbQryOnUniqueField] == QryOnUniqueFieldVal)
+        if myQrys.first() is not None: #handle empty record
+            #now query for static expression record:
+            myExpr = session.query(Expressions).filter(Expressions.id == myQrys.first()[0])
+            print ('       dynamic expression: ' + aVar[0] + ' = ' + ' static expression: ' + myExpr.first().expression_name)
+            print ('       Reentering EvalExpr...')
+            strdbVal = str(EvalExpr(myExpr.first(), QryOnUnqFieldValsDict))
+        else:
+                print ('     FAULT!!!! While evaluating expression: DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' dxp expression query has no record')
+    else:
+        print (strdbVal)
+    return strdbVal

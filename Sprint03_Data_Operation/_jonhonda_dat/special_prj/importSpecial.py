@@ -51,9 +51,9 @@ def importFeasibilityQuestionsCSV(importFilePath):
                 VarDict = {} #init empty VarDict for expression
     #             build variable def. for db_val types, assume val obtained from fac. char table in db_val field, w/ fac_id as unique queryable field
     #             eval type based on type given. expect passed value to be val_type.value
-                retStatus = Expr.procInputVarDecs(VarDict, row[C_FacAvailableValVar], 'facility_chars', 'USEDECVAL', 'facility_id', 'FLOAT')
+                retStatus = Expr.procInputVarDecs(VarDict, row[C_FacAvailableValVar], 'facility_chars', 'USEDECVAL', 'id', 'FLOAT')
                 if isFuncStatusOK(retStatus[0]) == 1: # check if return status ok
-                    retStatus= Expr.procInputVarDecs(VarDict, row[C_BMPReqdValVar], 'facility_chars', 'USEDECVAL', 'facility_id', 'FLOAT')
+                    retStatus= Expr.procInputVarDecs(VarDict, row[C_BMPReqdValVar], 'facility_chars', 'USEDECVAL', 'id', 'FLOAT')
                     VarDict = retStatus[1]
                 if isFuncStatusOK(retStatus[0]) == 0: #check if return status ok
                     print (getFuncStatusFault(retStatus[0]) + '    Fix error and retry.')
@@ -93,12 +93,14 @@ def _HELPER_ImportBaseBMPsCSV_Expr (importLS, row, csvHeadersLS):
     '''
     VarDict = {} #init empty VarDict for expression
     #proce variable declaration. assume variable's value can be found in the facility_chars table
-    retStatus = Expr.procInputVarDecs(VarDict, row[csvHeadersLS.index(importLS[0])], 'facility_chars', 'USEDECVAL', 'facility_id', 'FLOAT')
+    retStatus = Expr.procInputVarDecs(VarDict, row[csvHeadersLS.index(importLS[0])], 'facility_chars', 'USEDECVAL', 'id', 'FLOAT')
     if isFuncStatusOK(retStatus[0]) == 0: #check if return status ok
         print (getFuncStatusFault(retStatus[0]) + '    Fix error and retry.')
         my_expr_id=-1234
     else:
         my_expr_id = Expr.registerExpr (importLS[1],  row[csvHeadersLS.index(importLS[2])], VarDict)
+    return my_expr_id
+
 def importBaseBMPsCSV(importFilePath):
     import csv
     import expression as Expr #expression inserting module
@@ -123,6 +125,7 @@ def importBaseBMPsCSV(importFilePath):
             #use dict. comprehension to represent association between the _HELPER_ImportBaseBMPsCSV returned record_id
             #and a foreign key field name. Dictionary is of form: {foreign_key_field_name:record_id}
             print ('\nReading csv record: ' + bmp_name)
+
             cip_om_sizeDict = {element[4]: _HELPER_ImportBaseBMPsCSV_Expr(element, row, csvHeadersLS) for element in importExprLS}
 
             #write pollutant removal rates to pollutant_removal_rates Table

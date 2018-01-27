@@ -18,14 +18,7 @@ CREATE TABLE base_bmp_facility_values( --table holding facility calculated value
 
 
 
-CREATE TABLE base_bmp_feasibility_test_results(
-  base_bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
-  facility_id INTEGER,
-  base_bmp_feasibility_test_definition_id INTEGER,
-  is_feasible INTEGER,
-  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
-  FOREIGN KEY (base_bmp_feasibility_test_definition_id) REFERENCES base_bmp_feasibility_test_definitions(base_bmp_feasibility_test_definition_id)
-);
+
 
 CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
   bmp_option_id INTEGER PRIMARY KEY,
