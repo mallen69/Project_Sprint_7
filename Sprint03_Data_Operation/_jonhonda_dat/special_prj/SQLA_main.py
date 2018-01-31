@@ -51,7 +51,7 @@ def insertupdateRec(myTable, setFieldVals, whereConstraint):
     Raises:
         None.
     """
-    PKName = getPKFieldNames(myTable) #shove parts of this into getPKFieldNames
+    PKName = getPKFieldNames(myTable) #shove partzs of this into getPKFieldNames
     ret = session.query(myTable.c[PKName]).filter(whereConstraint) #determine existance of record w/ whereConstraint
     if ret.first() is None: #then no record exists. do insert
         PKid = insertRec(myTable, setFieldVals)

@@ -20,17 +20,6 @@ CREATE TABLE base_bmp_facility_values( --table holding facility calculated value
 
 
 
-CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
-  bmp_option_id INTEGER PRIMARY KEY,
-  bmp_fingerprint TEXT, -- a hashup of the bmp_option_base_component_ids that comprise this bmp option. FORMAT: |bmp_option_base_component_id||bmp_option_base_component_id| w/ id's given in ascending order
-  -- <DEPRECATED. CALC AT RUNTIME> bmp_option_cip_expression_id INTEGER, --sum of base_bmp expressions
-  -- <DEPRECATED. CALC AT RUNTIME> bmp_option_om_expression_id INTEGER,--sum of base_bmp expressions
-  bmp_option_removal_rate_id INTEGER, --max of base_bmp removal rates
-  --FOREIGN KEY (bmp_option_cip_expression_id) REFERENCES expressions(expression_id),
-  --FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
-  FOREIGN KEY (bmp_option_removal_rate_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id)
-);
-
 CREATE TABLE bmp_option_base_components( --identifies the base_bmp components that comprise a bmp combo
   bmp_option_base_component_id INTEGER PRIMARY KEY,
   bmp_option_id INTEGER,
