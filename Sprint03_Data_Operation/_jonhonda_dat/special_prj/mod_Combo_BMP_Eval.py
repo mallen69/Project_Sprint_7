@@ -48,7 +48,7 @@ def _Max_bmp_combo_removal_rates(base_BMP_components, r_polls_pd, r_polls):
 
     #get fingerprint
     bmp_fingerprint = _Make_bmp_fingerprint(base_BMP_components)
-    #get existing combo bmp id or make new one
+    #get existing combo bmp id or make new one (determine existance be seeing if record w/ bmp_fingerprint exists in Combo_BMPs table)
     Combo_BMPs_metatable = Base.metadata.tables['combo_bmps']
     Combo_BMPs_pkid = SQLA_main.insertupdateRec(Combo_BMPs_metatable,{'bmp_fingerprint':bmp_fingerprint},Combo_BMPs.bmp_fingerprint == bmp_fingerprint)
     myComboBMP = session.query(Combo_BMPs).filter(Combo_BMPs.id == Combo_BMPs_pkid).first() #get combo bmp record
@@ -84,11 +84,11 @@ def Make_ALL_bmp_base_option_combos():
 
 #     now the magic: make BMP combos of increasing length, starting w/ 1 BMP, then 2, ...
     makeCnt = 0
-    for CBOLen in range(1,len(r_polls_pd.index)): #+1 so it's inclusive of last count
+    for CBOLen in range(1,len(r_polls_pd.index)):
     # for CBOLen in range(1,3): #+1 so it's inclusive of last count
         print (' Making BMP Combos of length: ' + str(CBOLen))
         #make list of CBOLen long combo lists using r_poll_pd index (which is the base_bmp_ids in Pandas object)
         print (' Find max pollutant removal rates for each BMP Combo of length: ', CBOLen)
         for combo in  itertools.combinations(r_polls_pd.index,CBOLen):
             _Max_bmp_combo_removal_rates(combo, r_polls_pd, r_polls)
-        print ('  Made ', len(list(itertools.combinations(r_polls_pd.index,CBOLen))), ' combos')    
+        print ('  Made ', len(list(itertools.combinations(r_polls_pd.index,CBOLen))), ' combos')

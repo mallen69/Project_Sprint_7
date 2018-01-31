@@ -28,21 +28,6 @@ CREATE TABLE bmp_option_base_components( --identifies the base_bmp components th
   FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
 );
 
-CREATE TABLE facility_bmp_options(
-  facility_bmp_option_id INTEGER PRIMARY KEY,
-  facility_id INTEGER,
-  bmp_option_id INTEGER,
-  is_feasible INTEGER,
-  calc_cip_cost FLOAT,
-  calc_om_cost FLOAT,
-  reduced_wrs_pollutant_risks_id INTEGER,
-  sum_reduced_wrs_pollutant_risk FLOAT,
-  sum_reduced_wrs FLOAT,
-  FOREIGN KEY (facility_id) REFERENCES facility_chars(facility_id),
-  FOREIGN KEY (bmp_option_id) REFERENCES bmp_options(bmp_option_id),
-  FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
-);
-
 
 
 CREATE TABLE scenarios(

@@ -135,43 +135,49 @@ def CountEvalErrors():
     global _EVAL_ERROR_COUNT
     return _EVAL_ERROR_COUNT
 
-def EvalExpr(myExpression, QryOnUnqFieldValsDict): #### pass in expression record as a sqlalchemy query record
-    #muyExpression: the expression record (a sqla query result) that we want to evaluate
+def EvalExpr(myExpression, QryOnUnqFieldValsDict, ShowCalculations = None): #### pass in expression record as a sqlalchemy query record
+    #myExpression: the expression record (a sqla query result) that we want to evaluate
     #QryOnUnqFieldValsDict: dictionary of table-fieldname and values that we should use in queries to obtain
-    #values we  should use in evaluating myExpression.
+    #values we should use in evaluating myExpression.
     #FORMAT:
         #{key = table.fieldname: item = unique value}
         #this allows us to define, for example, the unique facility and base-bmp pair to query for:
             #{facility_chars.facility_id: 2,
             # base_bmps.bmp_name: 'hydrodynamic_separator'
             #}
+    #ShowCalculations: optional variable. if True, then show steps, if false, then hide printouts, if None, then assume show steps
+    if ShowCalculations is None: #value not passed, then default to printing steps
+        ShowCalculations = True
     if myExpression.vars is None: #will be NoneType if no vars are a part of this expression record (expression is probably a constant)
 #         print ('empty')
         Vars= {} #make empty vars dictionary
     else:
         Vars = pickle.loads(myExpression.vars) #unpickle to Vars variable (Dictionary type)
-    print('proccessing expression: ' +  myExpression.expression_name + '=' + myExpression.expression_str)
+    if ShowCalculations: print('proccessing expression: ' +  myExpression.expression_name + '=' + myExpression.expression_str)
     myExprStr = myExpression.expression_str
     for aVar in Vars.items(): #iterate thru each Var in Vars, replacing procstr's Var instances w/ Var's value
-        myExprStr = myExprStr.replace(aVar[C_VarDict_VarName],_getVal(aVar,QryOnUnqFieldValsDict))
+        myExprStr = myExprStr.replace(aVar[C_VarDict_VarName],_getVal(aVar,QryOnUnqFieldValsDict, ShowCalculations))
     try:
         myVal = eval(myExprStr)
     except Exception as e:
-        print ('  FAULT!!!! Error occured while evaluating expression: ', myExprStr, ': ', e)
-        print ('  I will set evaluation to NoneType')
+        if ShowCalculations: print ('  FAULT!!!! Error occured while evaluating expression: ', myExprStr, ': ', e)
+        if ShowCalculations: print ('  I will set evaluation to NoneType')
         _IncrementEvalErrorCount() #INCREMENT EVALUATION ERROR COUNTER
         myVal = None
-    print ('  eval(' + str(myExprStr) + ')=' + str(myVal))
+    if ShowCalculations: print ('  eval(' + str(myExprStr) + ')=' + str(myVal))
     return myVal
 
-def _getVal(aVar, QryOnUnqFieldValsDict): #retrieve DB value, or call expression evaluation of passed variable (expects tuple of expression Query)
+def _getVal(aVar, QryOnUnqFieldValsDict, ShowCalculations = None): #retrieve DB value, or call expression evaluation of passed variable (expects tuple of expression Query)
     #QryOnUnqFieldValsDict: dictionary of the value that value obtaining query should query against. FORMAT:
         #{key = table.fieldname: item = unique value}
         #this allows us to define, for example, the unique facility and base-bmp pair to query for:
             #{facility_chars.facility_id: 2,
             # base_bmps.bmp_name: 'hydrodynamic_separator'
             #}
-    print('    attempting to retrieve value for: ', aVar)
+    #ShowCalculations: optional variable. if True, then show steps, if false, then hide printouts, if None, then assume show steps
+    if ShowCalculations is None: #value not passed, then default to printing steps
+        ShowCalculations = True
+    if ShowCalculations: print('    attempting to retrieve value for: ', aVar)
     strdbVal = 'fault_if_still_this'
     #unpack serialized data:
     dbTableName = aVar[1][C_VarDict_StoredTable]
@@ -184,7 +190,7 @@ def _getVal(aVar, QryOnUnqFieldValsDict): #retrieve DB value, or call expression
         try:
             QryOnUniqueFieldVal = QryOnUnqFieldValsDict[UnqFieldValsDict_Key]#[dbTableName + '.' + dbFieldName]
         except KeyError:
-            print ('     FAULT!!!! While evaluating the expression, I came upon a variable whos querying table name + field name: ', UnqFieldValsDict_Key,
+            if ShowCalculations: print ('     FAULT!!!! While evaluating the expression, I came upon a variable whos querying table name + field name: ', UnqFieldValsDict_Key,
             ' was not included with the passed QryOnUnqFieldValsDict: ', QryOnUnqFieldValsDict, '.  I would have given it the key: ', UnqFieldValsDict_Key)
             return strdbVal
         myTable = Base.metadata.tables[dbTableName]
@@ -195,28 +201,28 @@ def _getVal(aVar, QryOnUnqFieldValsDict): #retrieve DB value, or call expression
                 strdbVal = '\'' + dbVal + '\'' #encapsulate in quotes so python eval reads as str and not var
             else: #assume numeric
                 strdbVal = str(dbVal) #### cast to string
-            print('       QUERY RESULT: ' + aVar[C_VarDict_VarName] + '=' + strdbVal)
+            if ShowCalculations: print('       QUERY RESULT: ' + aVar[C_VarDict_VarName] + '=' + strdbVal)
 
     elif aVar[1][C_VarDict_VarType]=='exp':
-        print ('      This is an expression. Prepare to re-enter EvalExpr...')
+        if ShowCalculations: print ('      This is an expression. Prepare to re-enter EvalExpr...')
         #get expression record for the question_expression:
         myExpr = session.query(Expressions).filter(Expressions.expression_name == aVar[C_VarDict_VarName])
         if myExpr.first() is not None: #then record retrieved
             dbVal = myQrys.first() #### return record as value
-            print('       Reentering EvalExpr....')
-            strdbVal = str(EvalExpr(dbVal)) #### cast to string<--there may be an error here. dbVal is a tuple?
+            if ShowCalculations: print('       Reentering EvalExpr....')
+            strdbVal = str(EvalExpr(dbVal,ShowCalculations)) #### cast to string<--there may be an error here. dbVal is a tuple?
 
     elif aVar[1][C_VarDict_VarType]=='dxp':
     #                dynamic_expr_format: dyn expr name(exprID_tablename~exprID_fieldname~unqFieldName)
     #                identifies what table and field name holds reference to the expression_id, and the unique field  of the table that identifies the record.
-        print ('     This is a dynamic expression. Query for static expression using provided unique identifiers')
+        if ShowCalculations: print ('     This is a dynamic expression. Query for static expression using provided unique identifiers')
         UnqFieldValsDict_Key = dbTableName + '.' + dbQryOnUniqueField
         #get ready to query for expression id:
         #get unique value to query on:
         try:
             QryOnUniqueFieldVal = QryOnUnqFieldValsDict[UnqFieldValsDict_Key]#[dbTableName + '.' + dbFieldName]
         except KeyError:
-            print ('     FAULT!!!! While evaluating expression: DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' for the var was not included with QryOnUnqFieldValsDict')
+            if ShowCalculations: print ('     FAULT!!!! While evaluating expression: DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' for the var was not included with QryOnUnqFieldValsDict')
             return strdbVal
 
         myTable = Base.metadata.tables[dbTableName]
@@ -224,11 +230,11 @@ def _getVal(aVar, QryOnUnqFieldValsDict): #retrieve DB value, or call expression
         if myQrys.first() is not None: #handle empty record
             #now query for static expression record:
             myExpr = session.query(Expressions).filter(Expressions.id == myQrys.first()[0])
-            print ('       dynamic expression: ' + aVar[0] + ' = ' + ' static expression: ' + myExpr.first().expression_name)
-            print ('       Reentering EvalExpr...')
-            strdbVal = str(EvalExpr(myExpr.first(), QryOnUnqFieldValsDict))
+            if ShowCalculations: print ('       dynamic expression: ' + aVar[0] + ' = ' + ' static expression: ' + myExpr.first().expression_name)
+            if ShowCalculations: print ('       Reentering EvalExpr...')
+            strdbVal = str(EvalExpr(myExpr.first(), QryOnUnqFieldValsDict,ShowCalculations))
         else:
-                print ('     FAULT!!!! While evaluating expression: DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' dxp expression query has no record')
+                if ShowCalculations: print ('     FAULT!!!! While evaluating expression: DB stored table name + field name: ' + dbTableName + '.' + dbFieldName + ' dxp expression query has no record')
     else:
-        print (strdbVal)
+        if ShowCalculations: print (strdbVal)
     return strdbVal

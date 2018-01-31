@@ -30,7 +30,7 @@ Base.metadata.create_all(engine, checkfirst=True) #create SQLA classes
 #EVALUATE base_bmp feasibility:
 def is_base_bmp_feasible(myFacility, aBMP):
     #use PREVIOUSLY CALCULATED db feasibility data to determine if base bmp is feasible for the given facility.
-    print ('Determine feasibility of base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility.Fac_Name)
+    # print ('Determine feasibility of base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility.Fac_Name)
     '''need joint data from Tables:
                     BBFTD: base_bmp_feasibility_definitions
                     BBFTR: base_bmp_feasibility_test_results
@@ -45,13 +45,14 @@ def is_base_bmp_feasible(myFacility, aBMP):
                         BBFTR.facility_id == myFacility.id).filter(BBFTD.base_bmp_id == aBMP.id)
     is_bb_feasible = 1 #start w/ bmp feasibility as true (necessary start condition for bool and ops to work correctly)
     for Test in Tests:
-        print ('  Test Question ID: ', Test.feas_id, ' Test Result: ', Test.is_feasible)
+        # print ('  Test Question ID: ', Test.feas_id, ' Test Result: ', Test.is_feasible)
         is_bb_feasible = is_bb_feasible * Test.is_feasible #bool op to determine bmp feasibility
-    print ('  Result: ' + str(bool(is_bb_feasible)))
+    # print ('  Result: ' + str(bool(is_bb_feasible)))
     return is_bb_feasible
 
 def Eval_base_bmp_feasibility_tests(myFacility, myBaseBMP):
     #evaluate feasibility tests for a single facility in facility_char table & a single base_bmp from the base_bmps table
+    #put evaluation results into the base_bmp_feasibility_test_results table
     for row in session.query(BBFTD.feasibility_test_question_id, FTQ.question_expression_id, BBFTD.id).filter(
         BBFTD.feasibility_test_question_id == FTQ.id).filter(BBFTD.base_bmp_id == myBaseBMP.id):
         #build QryOnUnqFieldValsDict:
@@ -80,30 +81,41 @@ def Eval_base_bmp_feasibility_tests(myFacility, myBaseBMP):
 
 
 #############################################COST EVALUATOR################################################
-#evaluate base bmp cip and o&m costs
-def evalFacility_BaseBMPCosts(myFacility):
-    #for the given facility, compute base bmp costs only if base bmp is feasible at facility
-    #return dictionary of cip and om costs for feasibile base bmps. Format:
-        #{key = base_bmp_id: [cip_cost, om_cost]}
-        #cost list is defaulted as none values. remains none until overwritten by evaluation result. remains none if no result obtained. useful for detecting undefined conditions
-    print ('\nEvaluating base bmp costs at Facility: ' + myFacility.Fac_Name)
+#evaluate base bmp feasibiilty, cip and o&m costs
+def evalFacility_BaseBMP(myFacility, ShowCalculations=None):
+    '''
+    for each bmp at the given facility;
+        use feasibility test results to evaluate base bmp feasibility at the facility_id
+        compute base bmp costs only if base bmp is feasible at facility
+    #return list of dictionaries. 1 dict per bmp: bmp_id, feasibility, cip and om costs for feasibile base bmps. Format:
+        #[{base_bmp_id:val, base_bmp_name:val, is_feasible:val, calc_cip_cost:val, calc_om_cost:val},{base_bmp_id:val, is_feasible:val, calc_cip_cost:val, calc_om_cost:val}]
+        #costs in list is defaulted as none values. remains none until overwritten by evaluation result. remains none if no result obtained. useful for detecting undefined conditions
+
+    #ShowCalculations: optional variable. if True, then show steps, if false, then hide printouts, if None, then assume show steps
+    '''
+    if ShowCalculations is None:#value not passed, then default to printing steps
+        ShowCalculations = True
+    if ShowCalculations: print ('\nEvaluating base bmps for Facility: ' + myFacility.Fac_Name)
     myBMPs = session.query(Base_BMPs)
-    CostDict = {}
+    retLS=[]
     for aBMP in myBMPs:
         QryOnUnqFieldValsDict = {'facility_chars.id': myFacility.id,
              'base_bmps.bmp_name': aBMP.bmp_name} #bmp_name is needed b/c the test's expression may be unique to a particular bmp
-        if is_base_bmp_feasible(myFacility, aBMP):
-            print ('base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility.Fac_Name + ' is feasible. estimate costs:')
-            CostLS = [None,None] #use None as the defaults in cost list
-            print ('  Estimate CIP costs:')
+        tmpDict = {'base_bmp_id':None,'base_bmp_name':None, 'is_feasible': False, 'calc_cip_cost': None, 'calc_om_cost': None} #make temp dictionary from template
+        tmpDict['base_bmp_id'] = aBMP.id
+        tmpDict['base_bmp_name'] = aBMP.bmp_name
+        tmpDict['is_feasible'] = is_base_bmp_feasible(myFacility, aBMP)
+        if tmpDict['is_feasible']: #if base bmp is feasibile, then calculate costs
+            # print ('base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility.Fac_Name + ' is feasible. estimate costs:')
+            if ShowCalculations: print ('  Estimate CIP costs:')
             myExpr = session.query(Expressions).filter(Expressions.id == aBMP.cip_expression_id)
             if myExpr.first() is not None:
-                CostLS[0] = Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict) #write cip cost to cost list
-                print ('CIP Cost: ' + str(CostLS[0]))
-            print ('  Estimate O&M costs:')
+                 tmpDict['calc_cip_cost']= Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict, ShowCalculations) #write cip cost to cost list
+                # print ('CIP Cost: ' + str(retLS[1]))
+            if ShowCalculations: print ('  Estimate O&M costs:')
             myExpr = session.query(Expressions).filter(Expressions.id == aBMP.om_expression_id)
             if myExpr.first() is not None:
-                CostLS[1] = Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict) #write om cost to cost list
-                print ('O&M Cost: ' + str(CostLS[1]))
-            CostDict[aBMP.id] = CostLS #write cip and om costs to bmp entry in cost dictionary
-    return CostDict
+                tmpDict['calc_om_cost'] = Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict, ShowCalculations) #write om cost to cost list
+                # print ('O&M Cost: ' + str(retLS[2]))
+        retLS.append(tmpDict)
+    return retLS
