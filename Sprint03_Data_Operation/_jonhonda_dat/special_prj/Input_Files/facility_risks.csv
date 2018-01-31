@@ -1,5 +1,4 @@
-﻿Fac_Name,Category_RiskFactor,Inherent_BaseRisk,HousekeepingBMP_BaseRisk,SWPlan_BaseRisk,BMPInspectionDeficiency_Rate
-Waterfront Fire Station,84.99629594,1.277164755,#N/A,#N/A,1
+﻿facility_chars.Fac_Name,facility_risks.Category_RiskFactor,facility_risks.Inherent_BaseRisk,facility_risks.HousekeepingBMP_BaseRisk,facility_risks.SWPlan_BaseRisk,facility_risks.BMPInspectionDeficiency_Rate
 Honouliuli Wastewater Treatment Plant,150.003019,1.02813311,1.044884673,0.33722062,0
 Sand Island Wastewater Treatment Plant,150.003019,1.029455785,1.457105737,0.35458823,0
 Kalihi-Palama Bus & Paratransit Facility,150.003019,1.31122172,0.96354964,0.337498446,1
