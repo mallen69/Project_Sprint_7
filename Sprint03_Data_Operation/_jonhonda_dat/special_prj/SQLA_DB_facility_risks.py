@@ -13,7 +13,7 @@ class Facility_Risks(Base):
     BMPInspectionDeficiency_Rate = Column(Float) # deficient portion of PC bmp INSPECTION, OR 1 (modeled as fully defient) IF NO PC BMP IMPLEMENTED
     wrs_pollutant_limits_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # pollutant limits (either NEL or other) (store in WRS table for convenience)
     wrs_pollutant_concentrations_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id'))# existing pollutant concentrations from sampling data, or modeled (stor in WRS table for convenience)
-    wrs_pollutant_risks_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # WRS pollutant risk score components
+    wrs_pollutant_BaseRisks_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # Base WRS pollutant risk score components
     wrs_total_risk = Column(Float)
     wrs_pollutant_limits = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_limits_id]) #additional information need when multiple fields in a table use the same foreign_key field *(but not necessarily all pointing to same record)
     wrs_pollutant_concentrations = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_concentrations_id]) #additional information need when multiple fields in a table use the same foreign_key field *(but not necessarily all pointing to same record)
