@@ -14,6 +14,15 @@
 |----|----------------|------------------|----|
 |I need to **summarize the data I have** so that I can report basic findings| I need to **identify errors and inconsistencies in the data** so that I can develop solutions to address them, and possibly their source| I need to **produce basic visual plots and summary statistics of the central tendencies and range of my data set** so that I can develop an intuition for and a familiarity with my data set| I need to **construct inventories and quality assessment of the data available** so that I can propose high value ways to use the data assets|
 
+|Author|Project|Docs|
+|---|---|---|
+|[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**SOC-Hub**](https://github.com/supersistence/SOC-Hub) |[Journal](Sprint05_Summarizing_Describing/Hunter_Heaivilin.ipynb)|
+|[Jon Honda](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Jon_Honda_Roadmap.ipynb)| [**Data Observation EDA**](https://github.com/hondajyh/Sprint_5_Data_Observation_EDA) |[Journal](Sprint05_Summarizing_Describing/Jon_Honda.ipynb)|
+|[Michael Allen](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Michael_Allen.ipynb)| [**Exploratory & Analysis of US Contagious Diseases**](https://github.com/mallen69/Project_Sprint_5) |[Journal](Sprint05_Summarizing_Describing/Michael_Allen.ipynb)
+|[Runjini Murthy](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Runjini_Murthy_Roadmap.ipynb)| [**Ward Village Facebook Post Analysis**](https://github.com/runjini/Runjini_Sprint_4) |[Journal](Sprint05_Summarizing_Describing/Runjini_Murthy.ipynb)|
+|[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)| [**TBD**]() |[Journal](Sprint05_Summarizing_Describing/Sheuli_Molla.ipynb)|
+|[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| [**Exploring R Packages and Libraries**](https://github.com/ToriLarson/4ManipulatingData_Rpackages) |[Journal](Sprint05_Summarizing_Describing/Victoria_Larson.ipynb)|
+
 ### Module 2: Basic Data Manipulation
 *Before you engage in structured analysis, you often just want to “see” the data. This can mean pre-viewing a subset of it, summarizing the columns/attributes/features, sorting or reorganizing it and otherwise finding ways to immerse yourself in your data. Again, each data tool has something to offer, and our objective is to develop a good sense of the utilities available to you.*
 
