@@ -9,11 +9,6 @@
 ### Module 3: Exploratory Data Analysis
 *Data analysis is built around questions, and exploratory data analysis helps you know what questions to ask. Descriptive statistics and basic visualizations that summarize features or suggest relationships inspire the generation of hypotheses to confirm with statistical tests or build into statistical models.*
 
-## Sprint 5: Summarizing and Describing - [*Content*](Sprint05_Summarizing_Describing/00_Sprint_Classroom_Content.ipynb)
-|Data Journalist| Data Engineer | Statistical Modeler| Business Analyst |
-|----|----------------|------------------|----|
-|I need to **summarize the data I have** so that I can report basic findings| I need to **identify errors and inconsistencies in the data** so that I can develop solutions to address them, and possibly their source| I need to **produce basic visual plots and summary statistics of the central tendencies and range of my data set** so that I can develop an intuition for and a familiarity with my data set| I need to **construct inventories and quality assessment of the data available** so that I can propose high value ways to use the data assets|
-
 |Author|Project|Docs|
 |---|---|---|
 |[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**SOC-Hub**](https://github.com/supersistence/SOC-Hub) |[Journal](Sprint05_Summarizing_Describing/Hunter_Heaivilin.ipynb)|
