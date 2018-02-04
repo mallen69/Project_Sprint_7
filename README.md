@@ -19,9 +19,9 @@
 |[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**SOC-Hub**](https://github.com/supersistence/SOC-Hub) |[Journal](Sprint05_Summarizing_Describing/Hunter_Heaivilin.ipynb)|
 |[Jon Honda](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Jon_Honda_Roadmap.ipynb)| [**Data Observation EDA**](https://github.com/hondajyh/Sprint_5_Data_Observation_EDA) |[Journal](Sprint05_Summarizing_Describing/Jon_Honda.ipynb)|
 |[Michael Allen](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Michael_Allen.ipynb)| [**Exploratory & Analysis of US Contagious Diseases**](https://github.com/mallen69/Project_Sprint_5) |[Journal](Sprint05_Summarizing_Describing/Michael_Allen.ipynb)
-|[Runjini Murthy](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Runjini_Murthy_Roadmap.ipynb)| [**Ward Village Facebook Post Analysis**](https://github.com/runjini/Runjini_Sprint_4) |[Journal](Sprint05_Summarizing_Describing/Runjini_Murthy.ipynb)|
-|[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)| [**TBD**]() |[Journal](Sprint05_Summarizing_Describing/Sheuli_Molla.ipynb)|
-|[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| [**Exploring R Packages and Libraries**](https://github.com/ToriLarson/4ManipulatingData_Rpackages) |[Journal](Sprint05_Summarizing_Describing/Victoria_Larson.ipynb)|
+|[Runjini Murthy](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Runjini_Murthy_Roadmap.ipynb)| [**EDA for Lego**](https://github.com/runjini/Runjini_Sprint_5) |[Journal](Sprint05_Summarizing_Describing/Runjini_Murthy.ipynb)|
+|[Sheuli Molla](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Sheuli_Molla_Roadmap.ipynb)| [**TBD**](https://github.com/sheulimolla/Sprint-5-) |[Journal](Sprint05_Summarizing_Describing/Sheuli_Molla.ipynb)|
+|[Tori Larson](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Tori_Larson_Roadmap.ipynb)| [**Analyzing, Understanding & Summarizing Disease Data**](https://github.com/ToriLarson/5_Analyzing_Understanding_and_Summarizing_Data) |[Journal](Sprint05_Summarizing_Describing/Victoria_Larson.ipynb)|
 
 ### Module 2: Basic Data Manipulation
 *Before you engage in structured analysis, you often just want to “see” the data. This can mean pre-viewing a subset of it, summarizing the columns/attributes/features, sorting or reorganizing it and otherwise finding ways to immerse yourself in your data. Again, each data tool has something to offer, and our objective is to develop a good sense of the utilities available to you.*
