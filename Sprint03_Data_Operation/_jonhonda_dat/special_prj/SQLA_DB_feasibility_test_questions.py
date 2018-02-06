@@ -9,9 +9,17 @@ class Feasibility_Test_Questions(Base):
     feas_id = Column(String(), unique=True) # id used in input sheets to identify the feasibility question
     question_english = Column(String()) # question in plain english_question,
     question_expression_id = Column(Integer, ForeignKey('expressions.id')) # question as an expression (held in expressions table),
+<<<<<<< HEAD
 
     base_bmp_feasibility_test_definitions = relationship("Base_BMP_Feasibility_Test_Definitions") #setup 1:many relationship between table noted in this line, and this class
 
     # def __repr__(self):
     #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
     #                         self.city, self.country, self.people_id)
+=======
+    base_bmp_feasibility_test_definitions = relationship("Base_BMP_Feasibility_Test_Definitions") #setup 1:many relationship between table noted in this line, and this class
+
+    def __repr__(self):
+        return "<Feasibility_Test_Questions(id='%s', feas_id='%s', question_english='%s', question_expression_id='%s')>" % (
+                            self.id, self.feas_id, self.question_english, self.question_expression_id)
+>>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
