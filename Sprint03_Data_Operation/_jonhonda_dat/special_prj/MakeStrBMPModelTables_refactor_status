@@ -18,6 +18,7 @@ CREATE TABLE base_bmp_facility_values( --table holding facility calculated value
 
 
 
+<<<<<<< HEAD
 CREATE TABLE base_bmp_feasibility_test_results(
   base_bmp_feasibility_test_result_id INTEGER PRIMARY KEY,
   facility_id INTEGER,
@@ -37,6 +38,9 @@ CREATE TABLE bmp_options( --defines the aggregatized values of a bmp_option
   --FOREIGN KEY (bmp_option_om_expression_id) REFERENCES expressions(expression_id),
   FOREIGN KEY (bmp_option_removal_rate_id) REFERENCES pollutant_removal_rates(pollutant_removal_rates_id)
 );
+=======
+
+>>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
 
 CREATE TABLE bmp_option_base_components( --identifies the base_bmp components that comprise a bmp combo
   bmp_option_base_component_id INTEGER PRIMARY KEY,
@@ -46,6 +50,7 @@ CREATE TABLE bmp_option_base_components( --identifies the base_bmp components th
   FOREIGN KEY (base_bmp_id) REFERENCES base_bmps(base_bmp_id)
 );
 
+<<<<<<< HEAD
 CREATE TABLE facility_bmp_options(
   facility_bmp_option_id INTEGER PRIMARY KEY,
   facility_id INTEGER,
@@ -61,6 +66,8 @@ CREATE TABLE facility_bmp_options(
   FOREIGN KEY (reduced_wrs_pollutant_risks_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
 );
 
+=======
+>>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
 
 
 CREATE TABLE scenarios(
@@ -97,6 +104,7 @@ CREATE TABLE scenario_iteration_bmp_options(
   FOREIGN KEY (scenario_iteration_id) REFERENCES scenario_iterations(scenario_iteration_id),
   FOREIGN KEY (facility_bmp_option_id) REFERENCES facility_bmp_options(facility_bmp_option_id)
 );
+<<<<<<< HEAD
 
 
 
@@ -120,3 +128,5 @@ CREATE TABLE nel_sample_classes ( -- holds sampling class types (PBP Appendix L)
   wrs_pollutant_class_id INTEGER,
   FOREIGN KEY (wrs_pollutant_class_id) REFERENCES wrs_pollutant_risks(wrs_pollutant_risks_id)
 );
+=======
+>>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
