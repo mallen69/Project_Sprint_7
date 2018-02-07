@@ -61,6 +61,7 @@ class Facility_Chars(Base):
     Drainage_Area_Acres = Column(Float)
     base_bmp_feasibility_test_results = relationship("Base_BMP_Feasibility_Test_Results") #setup 1:many relationship between table noted in this line, and this class
     combo_bmp_feasibility_test_results = relationship("Combo_BMP_Feasibility_Test_Results") #setup 1:many relationship between table noted in this line, and this class
+    existing_pollutant_concentrations = relationship("Existing_Pollutant_Concentrations") #setup 1:many relationship between table noted in this line, and this class
 
     def __repr__(self):
         return "<Facility_Chars(id='%s', Fac_Name ='%s')>" % (

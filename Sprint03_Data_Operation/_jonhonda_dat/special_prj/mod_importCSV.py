@@ -54,7 +54,15 @@ def _HELPER_importCSVrow(headersDict, CSVrow, updateWhereLF = False):
             PKCol = myTable.c[PKLS] #get sqlAlchemy object for PK Field
             rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, (lambda PKid: PKid == -1234)(PKCol))
         else: #use where clause lambda function to evaluate insert/update
-            rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, updateWhereLF[myTableName](myRecDict))
+            try:
+                rec_id =  SQLA_main.insertupdateRec(myTable, myRecDict, updateWhereLF[myTableName](myRecDict))
+            except Exception as e:
+                print ('ERROR has occured. Here is some information to help debug:')
+                print ('One helpful hint before diving into the deep - check csv file format. Is it UTF-8? It has to be or else funny stuff happens.')
+                print ('Table Name: ', myTableName)
+                print ('updateWhereLF: ', updateWhereLF)
+                print ('myRecDict:', myRecDict)
+                raise
         myRowRecDict.update({myTableName + '.' + PKLS:rec_id}) #add PK id to record of rows added
     return myRowRecDict
 
