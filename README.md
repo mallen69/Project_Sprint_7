@@ -9,7 +9,7 @@
 
 |Author|Project|Docs|
 |---|---|---|
-|[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**SOC-Hub**](https://github.com/supersistence/SOC-Hub) |[Journal](Sprint05_Summarizing_Describing/Hunter_Heaivilin.ipynb)|
+|[Hunter Heavilin](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Hunter_Heaivilin_Roadmap.ipynb)|  [**TBD**](https://github.com/supersistence/) |[Journal](Sprint05_Summarizing_Describing/Hunter_Heaivilin.ipynb)|
 |[Jon Honda](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Jon_Honda_Roadmap.ipynb)| [**Data Observation EDA**](https://github.com/hondajyh/Sprint_5_Data_Observation_EDA) |[Journal](Sprint05_Summarizing_Describing/Jon_Honda.ipynb)|
 |[Michael Allen](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Michael_Allen.ipynb)| [**Exploratory & Analysis of US Contagious Diseases**](https://github.com/mallen69/Project_Sprint_5) |[Journal](Sprint05_Summarizing_Describing/Michael_Allen.ipynb)
 |[Runjini Murthy](Sprint00_Meta_Content/00_Roadmaps_and_Blueprints/Runjini_Murthy_Roadmap.ipynb)| [**EDA for Lego**](https://github.com/runjini/Runjini_Sprint_5) |[Journal](Sprint05_Summarizing_Describing/Runjini_Murthy.ipynb)|
