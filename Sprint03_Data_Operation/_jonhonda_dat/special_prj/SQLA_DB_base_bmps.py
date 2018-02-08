@@ -2,10 +2,6 @@ from sqlalchemy import *
 from SQLA_Base import Base
 from sqlalchemy.orm import relationship
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
 class Base_BMPs(Base):
     #--table defining bmp technologies
     __tablename__ = 'base_bmps'
@@ -17,20 +13,11 @@ class Base_BMPs(Base):
     bmp_size_expression_id = Column(Integer, ForeignKey('expressions.id'))
 
     base_bmp_feasibility_test_definitions = relationship("Base_BMP_Feasibility_Test_Definitions") #setup 1:many relationship between table noted in this line, and this class
-<<<<<<< HEAD
-
-=======
->>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
     cip_expression = relationship('Expressions', foreign_keys = [cip_expression_id])
     om_expression = relationship('Expressions', foreign_keys = [om_expression_id])
     bmp_size_expression = relationship('Expressions', foreign_keys = [bmp_size_expression_id])
 
 
     def __repr__(self):
-<<<<<<< HEAD
-        return "<Base_BMPs(id='%s', bmp_name='%s)>" % (
-                            self.id, self.bmp_name)
-=======
         return "<Base_BMPs(id='%s', bmp_name='%s', bmp_removal_rates_id='%s', cip_expression_id='%s', om_expression_id='%s', bmp_size_expression_id='%s')>" % (
                             self.id, self.bmp_name, self.bmp_removal_rates_id, self.cip_expression_id, self.om_expression_id, self.bmp_size_expression_id)
->>>>>>> 95e8ddb91b9e507052f3593090bd907e5ebf658c
