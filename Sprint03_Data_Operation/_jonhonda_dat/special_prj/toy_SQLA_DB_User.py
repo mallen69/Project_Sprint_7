@@ -8,7 +8,7 @@ class People(Base):
     name = Column(String(50), unique=True)
     ssn = Column(String(12))
     age = Column(Integer)
-    locations = relationship("Locations") #setup 1:many relationship. corresponds w/ people_id fk in Locations table
+    locations = relationship("Locations") #setup 1:many relationship (1 person can have many locations). corresponds w/ people_id fk in Locations table
 
     def __repr__(self):
         return "<People(name='%s', ssn='%s', age='%s')>" % (

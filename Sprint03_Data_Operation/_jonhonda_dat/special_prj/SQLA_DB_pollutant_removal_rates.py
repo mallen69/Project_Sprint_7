@@ -18,10 +18,8 @@ class Pollutant_Removal_Rates(Base):
     r_phmin  = Column(Float)
     r_phmax = Column(Float)
 
-    # facility_risks = relationship("Facility_Risks") #setup 1:many relationship between table noted in this line, and this class
+    combo_bmps = relationship("Combo_BMPs", uselist = False) #setup 1:1 relationship between table noted in this line, and this class
 
-
-    #
-    # def __repr__(self):
-    #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
-    #                         self.city, self.country, self.people_id)
+    def __repr__(self):
+        return "<Pollutant_Removal_Rates(id='%s',r_tss='%s', r_turbidity='%s', r_p='%s', r_n='%s', r_nn='%s', r_an='%s', r_og='%s', r_cu='%s', r_zn='%s', r_fe='%s', r_phmin='%s', r_phmax='%s')>" % (
+        self.id, self.r_tss, self.r_turbidity, self.r_p, self.r_n, self.r_nn, self.r_an, self.r_og, self.r_cu, self.r_zn, self.r_fe, self.r_phmin, self.r_phmax )

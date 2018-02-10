@@ -19,7 +19,6 @@ class WRS_Pollutant_Risks(Base):
     wrs_phmax = Column(Float)
 
     facility_type_has_nel = relationship("Facility_Type_Has_NEL") #setup 1:many relationship between table noted in this line, and this class
-
     #
     # def __repr__(self):
     #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (

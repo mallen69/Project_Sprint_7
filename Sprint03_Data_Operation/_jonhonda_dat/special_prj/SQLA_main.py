@@ -51,7 +51,7 @@ def insertupdateRec(myTable, setFieldVals, whereConstraint):
     Raises:
         None.
     """
-    PKName = getPKFieldNames(myTable) #shove parts of this into getPKFieldNames
+    PKName = getPKFieldNames(myTable) #shove partzs of this into getPKFieldNames
     ret = session.query(myTable.c[PKName]).filter(whereConstraint) #determine existance of record w/ whereConstraint
     if ret.first() is None: #then no record exists. do insert
         PKid = insertRec(myTable, setFieldVals)
@@ -72,8 +72,9 @@ def updateRec(updateTable, setFieldVals, updateWhereLF):
     #update a single records:
         #ex: updateRecs(FkTable, {FkFKField.name:arecPKid}, (lambda x,y: x == y)(FkPKField, constrVal))
         #updateTable: table to update
-        #setFieldVals: dictionarinserted_proimary_key[0]y of fields and vals to be updated: {fieldname:val,fieldname:val}
+        #setFieldVals: dictionary of fields and vals to be updated: {fieldname:val,fieldname:val}
         #updateWhereLF: update constraints where constraint, passed as a lambda function, is
+    # print (setFieldVals)
     u = update(updateTable) #make a SQLAlchemy update object for updateTable
     u = u.values(setFieldVals) #set update values
     u = u.where(updateWhereLF) #define update's where clause
