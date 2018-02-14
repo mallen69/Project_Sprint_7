@@ -8,9 +8,8 @@ class Facility_Chars(Base):
     Fac_Name = Column(String(), unique=True)
     Permit_Table = Column(String()) #--permit table (1, 1A, 2, or none)
     PBP_Category = Column(String()) #Priority based plan PBP_Category
-    NEL_Column = Column(String()) #nel column(s) assigned to this facility.
-                                    #*NOTE: purposely not associated w/ NEL_sample_Classes table b/c some facilities are assigned different wet and dry season columns
-                                    #which is represented in this table's NEL_Column field as xx & Yyy
+    NEL_Column_Wet = Column(String()) #nel column(s) assigned to this facility. (wet season)
+    NEL_Column_Dry = Column(String()) #nel column(s) assigned to this facility. (dry season)
     existing_facility_risk_id = Column(Integer, ForeignKey('facility_risks.id')) #-- existing facility risk estimate record_id (modeled or from existing data sources)
     facility_monthly_rain_id = Column(Integer, ForeignKey('facility_monthly_rain.id')) #-- facility monthly rainfall records
     facility_type_id = Column(Integer, ForeignKey('facility_types.id'))## facility types as defined in the facility types table

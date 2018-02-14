@@ -7,7 +7,7 @@ class Existing_Pollutant_Concentrations(Base):
     __tablename__ = 'existing_pollutant_concentrations'
     id = Column(Integer, primary_key=True)
     facility_id = Column(Integer, ForeignKey('facility_chars.id')) #this field violates our standard that fac_chars should hold all reference table ids.
-                                                                    #but other fac_chars reference fields are 1:1. In this case, we can have 1 fac to many ex_poll_Conc records 
+                                                                    #but other fac_chars reference fields are 1:1. In this case, we can have 1 fac to many ex_poll_Conc records
     sample_method = Column(String()) #how numbers were obtained: simulated or infield
     sample_point_name = Column(String())
     sample_date = Column(String())
@@ -26,5 +26,5 @@ class Existing_Pollutant_Concentrations(Base):
 
     #
     # def __repr__(self):
-    #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
-    #                         self.city, self.country, self.people_id)
+    #     return "<Existing_Pollutant_Concentrations(id='%s', facility_id='%s', sample_method='%s', sample_point_name='%s', sample_date='%s', c_tss ='%s', c_turbidity ='%s', c_p ='%s', c_n ='%s', c_nn ='%s', c_an ='%s', c_og ='%s', c_cu ='%s', c_zn ='%s', c_fe ='%s', c_phmin ='%s', c_phmax ='%s')>" % (
+    #                 self.city, self.country, self.people_id)
