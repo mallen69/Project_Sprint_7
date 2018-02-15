@@ -1,5 +1,5 @@
 '''
-Name: BASE_BMP_Eval.py
+Name: mod_BASE_BMP_Eval.py
 evaluate Base BMPs (feasibility and costs)
 
 '''

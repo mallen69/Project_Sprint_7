@@ -1,5 +1,5 @@
 '''
-Name: expression.py
+Name: mod_expression.py
 routines to help insert expressions to the database and evaluate expressions
  NOTES ON INSERTION:
 
