@@ -153,11 +153,12 @@ def _HELPER_Get_pd_NEL_WetOrDry(SampleDate,pd_FacsNELs_Wet, pd_FacsNELs_Dry):
     else:
         return pd_FacsNELs_Wet
 
-def ExceedanceCalc(myRow, Constituent, FacID, pd_FacsNELs_Wet, pd_FacsNELs_Dry):
+def ExceedanceCalc(myRow, Constituent, FacID, pd_FacsNELs_Wet, pd_FacsNELs_Dry, ShowCalculations):
     '''
     pass in pandas row of: Sample_Date, PollunantSampleConcentrations
     pass in Pollutant constituent we need to calculate exceedance for
     pass in Facility ID we want to evaluate
+    pass in ShowCalculations indicating if we should output steps
     return: exceedance value
 
     function considers whether sample was taken during wet or dry season
@@ -186,4 +187,5 @@ def ExceedanceCalc(myRow, Constituent, FacID, pd_FacsNELs_Wet, pd_FacsNELs_Dry):
         # except:
             # ParamVal = float('nan')
 #             print(Constituent)
+    # print (ParamVal)
     return ParamVal

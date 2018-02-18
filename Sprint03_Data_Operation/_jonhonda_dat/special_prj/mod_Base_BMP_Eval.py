@@ -50,21 +50,21 @@ def is_base_bmp_feasible(myFacility, aBMP):
     # print ('  Result: ' + str(bool(is_bb_feasible)))
     return is_bb_feasible
 
-def Eval_base_bmp_feasibility_tests(myFacility, myBaseBMP):
+def Eval_base_bmp_feasibility_tests(myFacility, myBaseBMP, ShowCalculations):
     #evaluate feasibility tests for a single facility in facility_char table & a single base_bmp from the base_bmps table
     #put evaluation results into the base_bmp_feasibility_test_results table
     for row in session.query(BBFTD.feasibility_test_question_id, FTQ.question_expression_id, BBFTD.id).filter(
         BBFTD.feasibility_test_question_id == FTQ.id).filter(BBFTD.base_bmp_id == myBaseBMP.id):
         #build QryOnUnqFieldValsDict:
-        print ('\n  Attempting eval of feasibility_test ID: ', row.feasibility_test_question_id)
+        if ShowCalculations: print ('\n  Attempting eval of feasibility_test ID: ', row.feasibility_test_question_id)
         QryOnUnqFieldValsDict = {'facility_chars.id': myFacility.id,
                                  'base_bmps.bmp_name':myBaseBMP.bmp_name} #bmp_name is needed b/c the test's expression may be unique to a particular bmp
         #get expression record for the question_expression:
         myExpr = session.query(Expressions).filter(Expressions.id == row.question_expression_id)
         if myExpr.first() is not None: #then record retrieved
 #             print (myExpr.first())
-            is_feasible = bool(Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict))
-            print ('  Writing to DB Feasibility Test Result: ' + str(is_feasible) + '(' + str(int(is_feasible)) + ')')
+            is_feasible = bool(Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict, ShowCalculations))
+            if ShowCalculations: print ('  Writing to DB Feasibility Test Result: ' + str(is_feasible) + '(' + str(int(is_feasible)) + ')')
             #insert/update feasibility test result:
             myTable = Base.metadata.tables['base_bmp_feasibility_test_results']
             recID = SQLA_main.insertupdateRec(myTable, {'facility_id':myFacility.id,
@@ -73,10 +73,10 @@ def Eval_base_bmp_feasibility_tests(myFacility, myBaseBMP):
                                 (myTable.c['facility_id'] == myFacility.id) &
                                  (myTable.c['base_bmp_feasibility_test_definitions_id'] == row.id))
             q = session.query(BBFTR, BBFTD).filter(BBFTR.id == recID).filter(BBFTR.base_bmp_feasibility_test_definitions_id == BBFTD.id)
-            print ('  Wrote to base_bmp_feasibility_test_results as recordID: ' + str(recID))
+            if ShowCalculations: print ('  Wrote to base_bmp_feasibility_test_results as recordID: ' + str(recID))
 #             KEEP FOR DEBUGGING print ('  Here is a record of what was written: ', q.first())
         else:
-            print ('!!!! FAULT! expression_id: ' + row[1] + ' not found in expressions table. this should not happen.')
+            if ShowCalculations: print ('!!!! FAULT! expression_id: ' + row[1] + ' not found in expressions table. this should not happen.')
             return False
 
 
