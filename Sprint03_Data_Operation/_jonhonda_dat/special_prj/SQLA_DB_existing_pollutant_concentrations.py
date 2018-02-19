@@ -8,7 +8,7 @@ class Existing_Pollutant_Concentrations(Base):
     id = Column(Integer, primary_key=True)
     facility_id = Column(Integer, ForeignKey('facility_chars.id')) #this field violates our standard that fac_chars should hold all reference table ids.
                                                                     #but other fac_chars reference fields are 1:1. In this case, we can have 1 fac to many ex_poll_Conc records
-    sample_method = Column(String()) #how numbers were obtained: simulated or infield
+    sample_method = Column(String()) #how numbers were obtained: sim_EMC(concs obtained from an EMC study), sim_MaxType (concs obtained from facility type max) or infield (from actual sampling data)
     sample_point_name = Column(String())
     sample_date = Column(String())
     c_tss = Column(Float)
