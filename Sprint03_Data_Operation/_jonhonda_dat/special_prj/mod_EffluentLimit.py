@@ -108,12 +108,10 @@ def GetNELs(recFac, OutputResults):
     pd_NELRequired = _HELPER_Get_pd_FacTypeHas_NEL(recFac)
 
     #DO: NEL = fTypeHas_NEL * SampleClass_NEL
-    print ('try get pd_FacNELs_Wet',recFac)
     try:
         pd_FacNELs_Wet = pd_NELColumn_Wet.mul(pd_NELRequired,1)
     except AttributeError: #error occurs if none type was passed into one of the vars for this facility
         return None, None
-    print ('try get pd_FacNELs_Dry',recFac)
     try:
         pd_FacNELs_Dry = pd_NELColumn_Dry.mul(pd_NELRequired,1)
     except AttributeError: #occurs if none type was passed into one of the variables
