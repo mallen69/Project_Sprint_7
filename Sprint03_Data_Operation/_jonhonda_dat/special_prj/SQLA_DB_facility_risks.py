@@ -24,6 +24,6 @@ class Facility_Risks(Base):
     combo_bmp_feasibility_test_results = relationship("Combo_BMP_Feasibility_Test_Results", uselist=False) #setup 1:1 relationship between table noted in this line, and this class
 
 
-    # def __repr__(self):
-    #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
-    #                         self.city, self.country, self.people_id)
+    def __repr__(self):
+        return "<Facility_Risks(id='%s', Category_RiskFactor='%s', Inherent_BaseRisk='%s', HousekeepingBMP_BaseRisk='%s', SWPlan_BaseRisk='%s', BMPInspectionDeficiency_Rate='%s', wrs_pollutant_base_risks_id='%s', wrs_total_risk='%s')>" % (
+        self.id, self.Category_RiskFactor, self.Inherent_BaseRisk, self.HousekeepingBMP_BaseRisk, self.SWPlan_BaseRisk, self.BMPInspectionDeficiency_Rate, self.wrs_pollutant_base_risks_id, self.wrs_total_risk)
