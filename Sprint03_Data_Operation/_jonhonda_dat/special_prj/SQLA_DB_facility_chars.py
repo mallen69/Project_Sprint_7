@@ -59,6 +59,9 @@ class Facility_Chars(Base):
     Dmg_Pave = Column(Integer)
     TFMR_Exist = Column(String())
     Can_Add_SD = Column(String())
+    Indus_Area = Column(Float)
+    Indus_WQV = Column(Float)
+    Indus_WQFR = Column(Float)
     base_bmp_feasibility_test_results = relationship("Base_BMP_Feasibility_Test_Results") #setup 1:many relationship between table noted in this line, and this class
     combo_bmp_feasibility_test_results = relationship("Combo_BMP_Feasibility_Test_Results") #setup 1:many relationship between table noted in this line, and this class
     existing_pollutant_concentrations = relationship("Existing_Pollutant_Concentrations") #setup 1:many relationship between table noted in this line, and this class
