@@ -52,6 +52,7 @@ Estimate NELs using the EffLim module's GetNELs function call.
 def _HELPER_Get_pd_NEL_Values (WetORDry_Field):
     #helper function to get pandas df the NEL values based on the given facility's NEL_Column from the NEL_sample_Classes table
     #for the given facility, for the wet or dry season
+    #rename columns to be prefixed by 'nel_'
     wrsid = session.query(NEL_Sample_Classes.wrs_pollutant_class_id).filter(WetORDry_Field ==
                                                                             NEL_Sample_Classes.nel_column)
     if wrsid.first() is None:
@@ -70,7 +71,8 @@ def _HELPER_Get_pd_NEL_Values (WetORDry_Field):
         WRS_Pollutant_Risks.wrs_phmin,
         WRS_Pollutant_Risks.wrs_phmax
     ).filter(WRS_Pollutant_Risks.id == wrsid.first()[0])
-    return  pd.read_sql(q.statement,session.bind)
+    pd_tmp = pd.read_sql(q.statement,session.bind) #write to DataFrame
+    return  pd_tmp
 
 def _HELPER_Get_pd_FacTypeHas_NEL (recFac):
     #helper function to get whether fac type requires NEL for each constituent (0 or 1) from the facility_type_has_nels table for the given recFac's fac_Type
@@ -122,6 +124,13 @@ def GetNELs(recFac, OutputResults):
     pd_FacNELs_Wet = pd_FacNELs_Wet.applymap(lambda x: float('nan') if x == 0 else x)
     pd_FacNELs_Dry = pd_FacNELs_Dry.applymap(lambda x: float('nan') if x == 0 else x)
 
+    #no longer need column names to match. rename columns from 'wrs' to 'nel'
+    ls_cols = list(pd_FacNELs_Wet.columns)
+    dict_repl = {col: col.replace('wrs','nel',1) for col in ls_cols}
+    pd_FacNELs_Wet = pd_FacNELs_Wet.rename(columns = dict_repl)
+    dict_repl = {col: col.replace('wrs','nel',1) for col in ls_cols}
+    pd_FacNELs_Dry = pd_FacNELs_Dry.rename(columns = dict_repl)
+
     #for show-your-work purposes, make a summary dataframe:
     if OutputResults:
         df_new = pd.concat([pd.concat([pd.concat( [pd.concat([pd_NELColumn_Dry, pd_NELColumn_Wet]),pd_NELRequired]), pd_FacNELs_Dry]),pd_FacNELs_Wet])
@@ -145,7 +154,7 @@ def GetNELs(recFac, OutputResults):
     return pd_FacNELs_Wet, pd_FacNELs_Dry
 
 ######################################### ESTIMATE EXCEEDANCE LEVELS #####################################################################
-def _HELPER_Get_pd_NEL_WetOrDry(SampleDate,pd_FacsNELs_Wet, pd_FacsNELs_Dry):
+def Get_pd_NEL_WetOrDry(SampleDate,pd_FacsNELs_Wet, pd_FacsNELs_Dry):
     '''
     Given the pd_FacsNELs_Wet and pd_FacsNELs_Dry dataframes, return one of the 2 depending on the given SampleDate
     Wet Season is from: January 1 through April 30 and November 1 through December 31
@@ -196,29 +205,29 @@ def ExceedanceCalc(myRow, Constituent, FacID, pd_FacsNELs_Wet, pd_FacsNELs_Dry, 
     function considers whether sample was taken during wet or dry season
     '''
     #do preliminary checks on data:
-    if _HELPER_IndexInPD(FacID, 'wrs_' + Constituent, pd_FacsNELs_Wet, pd_FacsNELs_Dry) == False:
+    if _HELPER_IndexInPD(FacID, 'nel_' + Constituent, pd_FacsNELs_Wet, pd_FacsNELs_Dry) == False:
         return float('nan')
     if math.isnan(myRow['c_'+Constituent]): #if parameter value is NAN then return Nan
         return float('nan')
-    if math.isnan(_HELPER_Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'wrs_'+Constituent]): #if NEL value is NAN then return Nan
+    if math.isnan(Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'nel_'+Constituent]): #if NEL value is NAN then return Nan
         return float('nan')
 
     #if get to this point, prelim checks passed. handle based on constituent type:
     if Constituent == 'phmin':
         # try:
-        ParamVal = max(0.0, _HELPER_Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'wrs_'+Constituent] - myRow['c_'+Constituent])
+        ParamVal = max(0.0, Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'nel_'+Constituent] - myRow['c_'+Constituent])
         # except:
         #     ParamVal = float('nan')
 #             print(Constituent)
     elif Constituent == 'phmax':
         # try:
-        ParamVal = max(0.0,myRow['c_'+Constituent]  -  _HELPER_Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'wrs_'+Constituent])
+        ParamVal = max(0.0,myRow['c_'+Constituent]  -  Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'nel_'+Constituent])
         # except:
             # ParamVal = float('nan')
 #             print(Constituent)
     else:
         # try:
-        ParamVal = max(0.0,myRow['c_'+Constituent]  -  _HELPER_Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'wrs_'+Constituent])
+        ParamVal = max(0.0,myRow['c_'+Constituent]  -  Get_pd_NEL_WetOrDry(myRow['sample_date'],pd_FacsNELs_Wet, pd_FacsNELs_Dry).loc[FacID, 'nel_'+Constituent])
         # except:
             # ParamVal = float('nan')
 #             print(Constituent)
