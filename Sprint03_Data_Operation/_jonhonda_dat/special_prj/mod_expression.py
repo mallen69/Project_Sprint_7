@@ -1,5 +1,5 @@
 '''
-Name: expression.py
+Name: mod_expression.py
 routines to help insert expressions to the database and evaluate expressions
  NOTES ON INSERTION:
 
@@ -77,7 +77,7 @@ def _add2VarDict (VarDict, VarName, VarType, StoredTable, StoredField, QryOnUniq
 # function to add variable definition to the given dictionary of variables
 # use the project standard VarDict:
 #    key = var name: [VarName, VarType, StoredTable, StoredField, QryOnUniqueField, DataType]
-    print('Adding to variable dictionary: ' + VarName)
+    # print('Adding to variable dictionary: ' + VarName)
     defList = [VarName, VarType, StoredTable, StoredField, QryOnUniqueField, DataType] #variable definition list
     key = VarName
     VarDict.update({key: defList})

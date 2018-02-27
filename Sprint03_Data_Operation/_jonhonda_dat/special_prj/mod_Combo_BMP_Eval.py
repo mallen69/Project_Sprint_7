@@ -1,5 +1,5 @@
 '''
-Name: Combo_BMP_Eval.py
+Name: mod_Combo_BMP_Eval.py
 evaluate combo BMPs (right now just create combos: find combos, find max pollutant_removal_rates, insert/update records in db)
 
 '''

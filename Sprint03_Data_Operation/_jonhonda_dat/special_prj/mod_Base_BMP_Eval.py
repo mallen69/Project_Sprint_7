@@ -1,5 +1,5 @@
 '''
-Name: BASE_BMP_Eval.py
+Name: mod_BASE_BMP_Eval.py
 evaluate Base BMPs (feasibility and costs)
 
 '''
@@ -28,21 +28,21 @@ Base.metadata.create_all(engine, checkfirst=True) #create SQLA classes
 
 ######################################### FEASIBILITY EVALUATORS #####################################################################
 #EVALUATE base_bmp feasibility:
-def is_base_bmp_feasible(myFacility, aBMP):
+def is_base_bmp_feasible(myFacility_ID, aBMP):
     #use PREVIOUSLY CALCULATED db feasibility data to determine if base bmp is feasible for the given facility.
-    # print ('Determine feasibility of base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility.Fac_Name)
+    # print ('Determine feasibility of base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility_ID.Fac_Name)
     '''need joint data from Tables:
                     BBFTD: base_bmp_feasibility_definitions
                     BBFTR: base_bmp_feasibility_test_results
                     FTQ: facility_test_questions
         joins:  BBFTR.base_bmp_feasibility_definition_id == BBFTD.id
                 BBFTD.feasibility_test_question_id == FTQ.id
-                BBFTR.facility_id == myFacility.id
+                BBFTR.facility_id == myFacility_ID
                 BBFTD.base_bmp_id == aBMP.id
     '''
     Tests = session.query(BBFTR.is_feasible, FTQ.feas_id).filter(BBFTR.base_bmp_feasibility_test_definitions_id == BBFTD.id).filter(
                         BBFTD.feasibility_test_question_id == FTQ.id).filter(
-                        BBFTR.facility_id == myFacility.id).filter(BBFTD.base_bmp_id == aBMP.id)
+                        BBFTR.facility_id == myFacility_ID).filter(BBFTD.base_bmp_id == aBMP.id)
     is_bb_feasible = 1 #start w/ bmp feasibility as true (necessary start condition for bool and ops to work correctly)
     for Test in Tests:
         # print ('  Test Question ID: ', Test.feas_id, ' Test Result: ', Test.is_feasible)
@@ -50,39 +50,39 @@ def is_base_bmp_feasible(myFacility, aBMP):
     # print ('  Result: ' + str(bool(is_bb_feasible)))
     return is_bb_feasible
 
-def Eval_base_bmp_feasibility_tests(myFacility, myBaseBMP):
+def Eval_base_bmp_feasibility_tests(myFacility_ID, myBaseBMP, ShowCalculations):
     #evaluate feasibility tests for a single facility in facility_char table & a single base_bmp from the base_bmps table
     #put evaluation results into the base_bmp_feasibility_test_results table
     for row in session.query(BBFTD.feasibility_test_question_id, FTQ.question_expression_id, BBFTD.id).filter(
         BBFTD.feasibility_test_question_id == FTQ.id).filter(BBFTD.base_bmp_id == myBaseBMP.id):
         #build QryOnUnqFieldValsDict:
-        print ('\n  Attempting eval of feasibility_test ID: ', row.feasibility_test_question_id)
-        QryOnUnqFieldValsDict = {'facility_chars.id': myFacility.id,
+        if ShowCalculations: print ('\n  Attempting eval of feasibility_test ID: ', row.feasibility_test_question_id)
+        QryOnUnqFieldValsDict = {'facility_chars.id': myFacility_ID,
                                  'base_bmps.bmp_name':myBaseBMP.bmp_name} #bmp_name is needed b/c the test's expression may be unique to a particular bmp
         #get expression record for the question_expression:
         myExpr = session.query(Expressions).filter(Expressions.id == row.question_expression_id)
         if myExpr.first() is not None: #then record retrieved
 #             print (myExpr.first())
-            is_feasible = bool(Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict))
-            print ('  Writing to DB Feasibility Test Result: ' + str(is_feasible) + '(' + str(int(is_feasible)) + ')')
+            is_feasible = bool(Expr.EvalExpr(myExpr.first(), QryOnUnqFieldValsDict, ShowCalculations))
+            if ShowCalculations: print ('  Writing to DB Feasibility Test Result: ' + str(is_feasible) + '(' + str(int(is_feasible)) + ')')
             #insert/update feasibility test result:
             myTable = Base.metadata.tables['base_bmp_feasibility_test_results']
-            recID = SQLA_main.insertupdateRec(myTable, {'facility_id':myFacility.id,
+            recID = SQLA_main.insertupdateRec(myTable, {'facility_id':myFacility_ID,
                                          'base_bmp_feasibility_test_definitions_id':row.id,
                                         'is_feasible':is_feasible},
-                                (myTable.c['facility_id'] == myFacility.id) &
+                                (myTable.c['facility_id'] == myFacility_ID) &
                                  (myTable.c['base_bmp_feasibility_test_definitions_id'] == row.id))
             q = session.query(BBFTR, BBFTD).filter(BBFTR.id == recID).filter(BBFTR.base_bmp_feasibility_test_definitions_id == BBFTD.id)
-            print ('  Wrote to base_bmp_feasibility_test_results as recordID: ' + str(recID))
+            if ShowCalculations: print ('  Wrote to base_bmp_feasibility_test_results as recordID: ' + str(recID))
 #             KEEP FOR DEBUGGING print ('  Here is a record of what was written: ', q.first())
         else:
-            print ('!!!! FAULT! expression_id: ' + row[1] + ' not found in expressions table. this should not happen.')
+            if ShowCalculations: print ('!!!! FAULT! expression_id: ' + row[1] + ' not found in expressions table. this should not happen.')
             return False
 
 
 #############################################COST EVALUATOR################################################
 #evaluate base bmp feasibiilty, cip and o&m costs
-def evalFacility_BaseBMP(myFacility, ShowCalculations=None):
+def evalFacility_BaseBMP(myFacility_ID, ShowCalculations=None):
     '''
     for each bmp at the given facility;
         use feasibility test results to evaluate base bmp feasibility at the facility_id
@@ -95,18 +95,21 @@ def evalFacility_BaseBMP(myFacility, ShowCalculations=None):
     '''
     if ShowCalculations is None:#value not passed, then default to printing steps
         ShowCalculations = True
-    if ShowCalculations: print ('\nEvaluating base bmps for Facility: ' + myFacility.Fac_Name)
+    if ShowCalculations:
+        session.query(Facility_Chars.Fac_Name).filter(Facility_Chars.id == myFacility_ID).first()
+        print ('\nEvaluating base bmps for Facility: ' + session.query(Facility_Chars.Fac_Name).filter(Facility_Chars.id == myFacility_ID).first()[0])
     myBMPs = session.query(Base_BMPs)
     retLS=[]
     for aBMP in myBMPs:
-        QryOnUnqFieldValsDict = {'facility_chars.id': myFacility.id,
+        QryOnUnqFieldValsDict = {'facility_chars.id': myFacility_ID,
              'base_bmps.bmp_name': aBMP.bmp_name} #bmp_name is needed b/c the test's expression may be unique to a particular bmp
-        tmpDict = {'base_bmp_id':None,'base_bmp_name':None, 'is_feasible': False, 'calc_cip_cost': None, 'calc_om_cost': None} #make temp dictionary from template
+        tmpDict = {'Facility_ID':None,'base_bmp_id':None,'base_bmp_name':None, 'is_feasible': False, 'calc_cip_cost': None, 'calc_om_cost': None} #make temp dictionary from template
+        tmpDict['Facility_ID'] = myFacility_ID
         tmpDict['base_bmp_id'] = aBMP.id
         tmpDict['base_bmp_name'] = aBMP.bmp_name
-        tmpDict['is_feasible'] = is_base_bmp_feasible(myFacility, aBMP)
+        tmpDict['is_feasible'] = is_base_bmp_feasible(myFacility_ID, aBMP)
         if tmpDict['is_feasible']: #if base bmp is feasibile, then calculate costs
-            # print ('base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility.Fac_Name + ' is feasible. estimate costs:')
+            # print ('base bmp: ' + aBMP.bmp_name + '  at Facility: ' + myFacility_ID.Fac_Name + ' is feasible. estimate costs:')
             if ShowCalculations: print ('  Estimate CIP costs:')
             myExpr = session.query(Expressions).filter(Expressions.id == aBMP.cip_expression_id)
             if myExpr.first() is not None:

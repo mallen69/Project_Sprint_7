@@ -14,7 +14,7 @@ class Facility_Risks(Base):
     # nel_sample_class_wet_id Column(Integer, ForeignKey('wrs_pollutant_risks.id'))
     # wrs_pollutant_limits_wet_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # wet season pollutant limits (either NEL or other) (store in WRS table for convenience)
     # wrs_pollutant_limits_dry_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # dry season pollutant limits (either NEL or other) (store in WRS table for convenience)
-    wrs_pollutant_base_risks_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # Base WRS pollutant risk score components
+    wrs_pollutant_base_risks_id = Column(Integer, ForeignKey('wrs_pollutant_risks.id')) # Base, normalized WRS pollutant risk score components
     wrs_total_risk = Column(Float)
     dummy_input = Column(Integer) #dummy input used purely during csv import to force importCSV to associate a column/record in another table w/ some column in this table
     # wrs_pollutant_limits = relationship('WRS_Pollutant_Risks', foreign_keys = [wrs_pollutant_limits_wet_id]) #additional information need when multiple fields in a table use the same foreign_key field *(but not necessarily all pointing to same record)
@@ -24,6 +24,6 @@ class Facility_Risks(Base):
     combo_bmp_feasibility_test_results = relationship("Combo_BMP_Feasibility_Test_Results", uselist=False) #setup 1:1 relationship between table noted in this line, and this class
 
 
-    # def __repr__(self):
-    #     return "<Locations(city='%s', country='%s', people_id='%s')>" % (
-    #                         self.city, self.country, self.people_id)
+    def __repr__(self):
+        return "<Facility_Risks(id='%s', Category_RiskFactor='%s', Inherent_BaseRisk='%s', HousekeepingBMP_BaseRisk='%s', SWPlan_BaseRisk='%s', BMPInspectionDeficiency_Rate='%s', wrs_pollutant_base_risks_id='%s', wrs_total_risk='%s')>" % (
+        self.id, self.Category_RiskFactor, self.Inherent_BaseRisk, self.HousekeepingBMP_BaseRisk, self.SWPlan_BaseRisk, self.BMPInspectionDeficiency_Rate, self.wrs_pollutant_base_risks_id, self.wrs_total_risk)
