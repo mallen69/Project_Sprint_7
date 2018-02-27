@@ -1,5 +1,5 @@
 '''
-name: importCSV.py
+name: mod_importCSV.py
 Main Routine: importCSV
 
 import records in a csv file where csv columns belong to one or more tables.
