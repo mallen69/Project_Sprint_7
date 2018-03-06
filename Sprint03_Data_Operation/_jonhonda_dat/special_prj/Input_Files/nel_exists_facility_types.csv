@@ -1,9 +1,0 @@
-﻿facility_types.Fac_Type,wrs_pollutant_risks.wrs_tss,wrs_pollutant_risks.wrs_p,wrs_pollutant_risks.wrs_n,wrs_pollutant_risks.wrs_nn,wrs_pollutant_risks.wrs_og,wrs_pollutant_risks.wrs_phmin,wrs_pollutant_risks.wrs_phmax,wrs_pollutant_risks.wrs_an,wrs_pollutant_risks.wrs_turbidity,wrs_pollutant_risks.wrs_cu,wrs_pollutant_risks.wrs_zn,wrs_pollutant_risks.wrs_fe,facility_type_has_nel.dummy_input
-FPS,1,1,1,1,1,1,1,1,1,0,0,0,0
-WWTP,1,1,1,1,1,1,1,1,1,1,1,0,0
-Bus Maintenance Facility,1,1,1,1,1,1,1,1,1,0,0,0,0
-RTS,1,1,1,1,1,1,1,1,1,0,0,0,0
-CY,1,1,1,1,1,1,1,1,1,0,0,0,0
-OTH,1,1,1,1,1,1,1,1,1,0,0,0,0
-CSL,1,1,1,1,1,1,1,1,1,0,0,1,0
-GC,1,1,1,1,1,1,1,1,1,0,0,0,0
