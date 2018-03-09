@@ -237,7 +237,7 @@ https://blog.cruxresearch.com/2013/08/27/the-top-5-errors-and-biases-in-survey-r
 The most important error that creeps into surveys about isn’t statistical at all and is not measurable. The viewpoint of the researcher has a way of creeping into question design and analysis. Some times this is purposeful, and other times it is more subtle. All research designers are human, and have points-of-view. Even the most practiced and professional researchers can have subtle biases in the way they word questions or interpret results. How we frame questions and report results is always affected by our experiences and viewpoints – which can be a good thing, but can also affect the purity of the study.  
 
 ### SurveyMonkey's Net Promoter Score (NPS)
-insert image:
+![](_mallen/NPS_Score.jpg?raw=true)
 
 __The Answers Customers Provide are Classified as Follows:__
 
@@ -302,7 +302,7 @@ Any idea…?
 ##### Get Your Results in Front of the Decision Makers of the Business in an Understandable Format..!  
 ##### (Possibly With Calculated Statistical Significance)
 
-![](_mallen/Paper_Work_Overload.jpg)
+![](_mallen/Paper_Work_Overload.jpg?raw=true)
 
 The most important Survey Question isn’t on the Survey..!  It is what are you going to do with the results…!!
 
