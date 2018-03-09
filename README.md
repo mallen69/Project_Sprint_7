@@ -291,7 +291,7 @@ If you want to get a bit geeky about it, the deeper level of detail is what surv
 
 ### And the Most Important Survey Question Is…?  
 
-![](_mallen/Thinking_Girl.jpg)  
+![](_mallen/Thinking_Girl.jpg?raw=true) 
 
 
 Any idea…?
